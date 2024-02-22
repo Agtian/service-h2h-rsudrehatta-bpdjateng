@@ -13,11 +13,11 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <!-- Nucleo Icons -->
-    <link href="{{ asset('public/assets/css/nucleo-icons.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
     <!-- CSS Files -->
-    <link href="{{ asset('public/assets/css/black-dashboard.css?v=1.0.0') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/black-dashboard.css?v=1.0.0') }}" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="{{ asset('public/assets/demo/demo.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/demo/demo.css') }}" rel="stylesheet" />
 </head>
 
 <body class="">
@@ -43,21 +43,21 @@
         @include('inc.fixed-plugin')
     </div>
     <!--   Core JS Files   -->
-    <script src="{{ asset('public/assets/js/core/jquery.min.js') }}"></script>
-    <script src="{{ asset('public/assets/js/core/popper.min.js') }}"></script>
-    <script src="{{ asset('public/assets/js/core/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('public/assets/js/plugins/perfect-scrollbar.jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/perfect-scrollbar.jquery.min.js') }}"></script>
     <!--  Google Maps Plugin    -->
     <!-- Place this tag in your head or just before your close body tag. -->
-    <script src="{{ asset('public/assets/ps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE') }}"></script>
+    <script src="{{ asset('assets/ps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE') }}"></script>
     <!-- Chart JS -->
-    <script src="{{ asset('public/assets/js/plugins/chartjs.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
     <!--  Notifications Plugin    -->
-    <script src="{{ asset('public/assets/js/plugins/bootstrap-notify.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap-notify.js') }}"></script>
     <!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="{{ asset('public/assets/js/black-dashboard.min.js?v=1.0.0') }}"></script>
+    <script src="{{ asset('assets/js/black-dashboard.min.js?v=1.0.0') }}"></script>
     <!-- Black Dashboard DEMO methods, don't include it in your project! -->
-    <script src="{{ asset('public/assets/demo/demo.js') }}"></script>
+    <script src="{{ asset('assets/demo/demo.js') }}"></script>
     <script>
         $(document).ready(function() {
             $().ready(function() {
