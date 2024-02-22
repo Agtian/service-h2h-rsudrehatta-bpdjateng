@@ -262,12 +262,19 @@ class TagihanPasienController extends Controller
 
     public function tagihanPasienUnlock($no_tagihan)
     {
+        $dataQuery = $this->getTagihanPasien($no_tagihan);
+        if ($dataQuery == null){
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Data tagihan tidak ditemukan',
+            ], 401);
+        }
 
-    }
-
-    public function storeResponsePaymentUnlock()
-    {
-
+        return response()->json([
+            'status'    => true,
+            'message'   => 'Data tagihan ditemukan',
+            'data'      => $dataQuery
+        ], 200);
     }
 
     public function storeResponseReversalUnlock(Request $request)
@@ -329,8 +336,4 @@ class TagihanPasienController extends Controller
         $dataPayment->save();
 
         return response()->json([
-            'status'    => true,
-            'message'   => 'Process flag reversal is successfuly'
-        ], 200);
-    }
 }
