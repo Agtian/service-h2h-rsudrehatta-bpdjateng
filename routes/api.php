@@ -34,7 +34,7 @@ Route::get('data-tagihan/{no_tagihan}', [TagihanPasienController::class, 'tagiha
 Route::post('response-payment', [TagihanPasienController::class, 'storeResponsePayment'])->middleware('auth:sanctum');
 
 
-Route::get('tagihan-pasien/{no_tagihan}', [TagihanPasienController::class, 'tagihanPasienUnlock'])->middleware('auth:sanctum');
+Route::get('tagihan-pasien-u/{no_tagihan}', [TagihanPasienController::class, 'tagihanPasienUnlock'])->middleware('auth:sanctum');
 Route::post('response-flag', [TagihanPasienController::class, 'storeResponsePaymentUnlock'])->middleware('auth:sanctum');
 Route::post('response-reversal', [TagihanPasienController::class, 'storeResponseReversalUnlock'])->middleware('auth:sanctum');
 
