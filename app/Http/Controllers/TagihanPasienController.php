@@ -277,6 +277,85 @@ class TagihanPasienController extends Controller
         ], 200);
     }
 
+    public function storeResponsePaymentUnlock(Request $request)
+    {
+        $rules = [
+            'nopembayaran'          => 'required',
+            'nokuitansi'            => 'required',
+            'nobuktibayar'          => 'required',
+            'totalbiayapelayanan'   => 'required',
+            'nama_pasien'           => 'required',
+            'no_rekam_medik'        => 'required',
+            'tanggal_lahir'         => 'required',
+            'status_payment'        => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        $dataQuery = $this->getTagihanPasien($request->nokuitansi);
+
+        if ($dataQuery == null){
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Data tagihan tidak ditemukan',
+            ], 401);
+        }
+
+        $queryLogPayments = DB::connection('mysql')->select("SELECT id, nokuitansi, status_payment
+                                                            FROM log_payments
+                                                            WHERE nokuitansi = $request->nokuitansi
+                                                            ORDER BY created_at DESC
+                                                            LIMIT 1");
+
+        // dd($queryLogPayments[0]->status_payment);
+
+        if ($queryLogPayments[0]->status_payment == 1) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Process flag payment is failed, payment status in full',
+            ], 401);
+        }
+
+        $this->validatedValuePaymentReversal($request->nokuitansi, $request->nopembayaran, $request->nobuktibayar, $request->totalbiayapelayanan, $request->nama_pasien, $request->no_rekam_medik);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Process flag payment is failed',
+                'data'      => $validator->errors()
+            ], 401);
+        }
+
+        if ($request->status_payment > 2) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Payment flag status not found',
+            ], 401);
+        }
+
+        $dataPayment = new LogPayment();
+        $dataPayment->nopembayaran          = $request->nopembayaran;
+        $dataPayment->nokuitansi            = $request->nokuitansi;
+        $dataPayment->nobuktibayar          = $request->nobuktibayar;
+        $dataPayment->totalbiayapelayanan   = $request->totalbiayapelayanan;
+        $dataPayment->nama_pasien           = $request->nama_pasien;
+        $dataPayment->no_rekam_medik        = $request->no_rekam_medik;
+        $dataPayment->tanggal_lahir         = $request->tanggal_lahir;
+        $dataPayment->alamat_pasien         = $dataQuery[0]->alamat_pasien;
+        $dataPayment->jeniskelamin          = $dataQuery[0]->jeniskelamin;
+        $dataPayment->usia                  = $dataQuery[0]->usia;
+        $dataPayment->ruangan_nama          = $dataQuery[0]->ruangan_nama;
+        $dataPayment->tgl_pendaftaran       = $dataQuery[0]->tgl_pendaftaran;
+        $dataPayment->status_payment            = $request->status_payment;
+        $dataPayment->payment_response_status   = $this->detailStatusPayment($request->status_payment)['status'];
+        $dataPayment->payment_response_message  = $this->detailStatusPayment($request->status_payment)['message'];
+        $dataPayment->save();
+
+        return response()->json([
+            'status'    => true,
+            'message'   => 'Process flag payment is successfuly'
+        ], 200);
+    }
+
     public function storeResponseReversalUnlock(Request $request)
     {
         $rules = [
@@ -336,4 +415,8 @@ class TagihanPasienController extends Controller
         $dataPayment->save();
 
         return response()->json([
+            'status'    => true,
+            'message'   => 'Process flag reversal is successfuly'
+        ], 200);
+    }
 }
