@@ -103,6 +103,7 @@ class TagihanPasienController extends Controller
     public function tagihanPasien($no_tagihan)
     {
         $dataQuery = $this->getTagihanPasien($no_tagihan);
+
         if ($dataQuery == null){
             return response()->json([
                 'status'    => false,
@@ -263,6 +264,7 @@ class TagihanPasienController extends Controller
     public function tagihanPasienUnlock($no_tagihan)
     {
         $dataQuery = $this->getTagihanPasien($no_tagihan);
+
         if ($dataQuery == null){
             return response()->json([
                 'status'    => false,
