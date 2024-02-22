@@ -23,9 +23,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
 
-        if (env('APP_KEY') !== 'local') {
-            URL::forceScheme('https');
-        }
+        // if (env('APP_KEY') !== 'local') {
+        //     URL::forceScheme('https');
+        // }
 
         // if(config('app.env') === 'production') {
         //     URL::forceScheme('https');
