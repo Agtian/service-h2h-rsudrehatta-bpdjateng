@@ -9,16 +9,29 @@ use Illuminate\Support\Facades\Validator;
 
 class TagihanPasienController extends Controller
 {
-    public function getTagihanPasien($no_tagihan)
+    public function getTagihanPasien($nomedis_or_notagihan)
     {
-        $dataQuery = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
+        $dataQueryByNoPembayaran = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
             substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, alamat_pasien,
             jeniskelamin, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama, tgl_pendaftaran
             FROM public.informasipasiensudahbayar_v
-            WHERE concat(substring(nopembayaran, 3, 6), substring(nopembayaran, 10, 3)) = '$no_tagihan'
+            WHERE concat(substring(nopembayaran, 3, 6), substring(nopembayaran, 10, 3)) = '$nomedis_or_notagihan'
                 AND cast(tglpembayaran AS DATE) = current_date
             ORDER BY tglpembayaran  DESC");
-        return $dataQuery;
+
+        if (count($dataQueryByNoPembayaran) === 0) {
+            $dataQueryByNoMedis = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
+                substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, alamat_pasien,
+                jeniskelamin, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama, tgl_pendaftaran
+                FROM public.informasipasiensudahbayar_v
+                    WHERE cast(tglpembayaran AS DATE) = current_date
+                    and no_rekam_medik = '$nomedis_or_notagihan'
+                ORDER BY tglpembayaran  DESC");
+
+            return $dataQueryByNoMedis;
+        } else {
+            return $dataQueryByNoPembayaran;
+        }
     }
 
     public function detailStatusPayment($status_payment)
@@ -100,9 +113,9 @@ class TagihanPasienController extends Controller
         }
     }
 
-    public function tagihanPasien($no_tagihan)
+    public function tagihanPasien($nomedis_or_notagihan)
     {
-        $dataQuery = $this->getTagihanPasien($no_tagihan);
+        $dataQuery = $this->getTagihanPasien($nomedis_or_notagihan);
 
         if ($dataQuery == null){
             return response()->json([
@@ -261,9 +274,9 @@ class TagihanPasienController extends Controller
         ], 200);
     }
 
-    public function tagihanPasienUnlock($no_tagihan)
+    public function tagihanPasienUnlock($nomedis_or_notagihan)
     {
-        $dataQuery = $this->getTagihanPasien($no_tagihan);
+        $dataQuery = $this->getTagihanPasien($nomedis_or_notagihan);
 
         if ($dataQuery == null){
             return response()->json([
@@ -278,7 +291,6 @@ class TagihanPasienController extends Controller
             'data'      => $dataQuery
         ], 200);
     }
-
     public function storeResponsePaymentUnlock(Request $request)
     {
         $rules = [
