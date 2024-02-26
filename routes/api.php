@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\TagihanPasienController as ApiTagihanPasienController;
 use App\Http\Controllers\TagihanPasienController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/', function(){
+Route::get('/', function () {
     return response()->json([
         'status'    => false,
         'message'   => 'Akses tidak diperbolehkan'
@@ -38,3 +39,7 @@ Route::get('tagihan-pasien/{nomedis_or_notagihan}', [TagihanPasienController::cl
 Route::post('response-flag', [TagihanPasienController::class, 'storeResponsePaymentUnlock']);
 Route::post('response-reversal', [TagihanPasienController::class, 'storeResponseReversalUnlock']);
 
+Route::middleware('api_key')->group(function () {
+    Route::get('patient-bills', [ApiTagihanPasienController::class, 'patientBill']);
+    Route::get('patient-bill', [ApiTagihanPasienController::class, 'patientBillById']);
+});

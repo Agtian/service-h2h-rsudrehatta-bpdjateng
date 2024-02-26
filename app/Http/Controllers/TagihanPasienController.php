@@ -117,7 +117,7 @@ class TagihanPasienController extends Controller
     {
         $dataQuery = $this->getTagihanPasien($nomedis_or_notagihan);
 
-        if ($dataQuery == null){
+        if ($dataQuery == null) {
             return response()->json([
                 'status'    => false,
                 'message'   => 'Data tagihan tidak ditemukan',
@@ -147,7 +147,7 @@ class TagihanPasienController extends Controller
         $validator = Validator::make($request->all(), $rules);
         $dataQuery = $this->getTagihanPasien($request->nokuitansi);
 
-        if ($dataQuery == null){
+        if ($dataQuery == null) {
             return response()->json([
                 'status'    => false,
                 'message'   => 'Data tagihan tidak ditemukan',
@@ -226,7 +226,7 @@ class TagihanPasienController extends Controller
         $validator = Validator::make($request->all(), $rules);
         $dataQuery = $this->getTagihanPasien($request->nokuitansi);
 
-        if ($dataQuery == null){
+        if ($dataQuery == null) {
             return response()->json([
                 'status'    => false,
                 'message'   => 'Data tagihan tidak ditemukan',
@@ -283,7 +283,7 @@ class TagihanPasienController extends Controller
             WHERE cast(tglpembayaran AS DATE) = current_date
         ORDER BY tglpembayaran  DESC");
 
-        if ($dataQuery == null){
+        if ($dataQuery == null) {
             return response()->json([
                 'status'    => false,
                 'message'   => 'Data tagihan tidak ditemukan',
@@ -301,7 +301,7 @@ class TagihanPasienController extends Controller
     {
         $dataQuery = $this->getTagihanPasien($nomedis_or_notagihan);
 
-        if ($dataQuery == null){
+        if ($dataQuery == null) {
             return response()->json([
                 'status'    => false,
                 'message'   => 'Data tagihan tidak ditemukan',
@@ -314,6 +314,7 @@ class TagihanPasienController extends Controller
             'data'      => $dataQuery
         ], 200);
     }
+
     public function storeResponsePaymentUnlock(Request $request)
     {
         $rules = [
@@ -330,7 +331,7 @@ class TagihanPasienController extends Controller
         $validator = Validator::make($request->all(), $rules);
         $dataQuery = $this->getTagihanPasien($request->nokuitansi);
 
-        if ($dataQuery == null){
+        if ($dataQuery == null) {
             return response()->json([
                 'status'    => false,
                 'message'   => 'Data tagihan tidak ditemukan',
@@ -409,7 +410,7 @@ class TagihanPasienController extends Controller
         $validator = Validator::make($request->all(), $rules);
         $dataQuery = $this->getTagihanPasien($request->nokuitansi);
 
-        if ($dataQuery == null){
+        if ($dataQuery == null) {
             return response()->json([
                 'status'    => false,
                 'message'   => 'Data tagihan tidak ditemukan',
