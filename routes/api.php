@@ -33,6 +33,7 @@ Route::post('login-user', [AuthController::class, 'loginUser']);
 Route::get('data-tagihan/{nomedis_or_notagihan}', [TagihanPasienController::class, 'tagihanPasien'])->middleware('auth:sanctum');
 Route::post('response-payment', [TagihanPasienController::class, 'storeResponsePayment'])->middleware('auth:sanctum');
 
+Route::get('all-tagihan-pasien', [TagihanPasienController::class, 'allTagihan']);
 Route::get('tagihan-pasien/{nomedis_or_notagihan}', [TagihanPasienController::class, 'tagihanPasienUnlock']);
 Route::post('response-flag', [TagihanPasienController::class, 'storeResponsePaymentUnlock']);
 Route::post('response-reversal', [TagihanPasienController::class, 'storeResponseReversalUnlock']);

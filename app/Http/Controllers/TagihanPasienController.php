@@ -274,6 +274,29 @@ class TagihanPasienController extends Controller
         ], 200);
     }
 
+    public function allTagihan()
+    {
+        $dataQuery = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
+        substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, alamat_pasien,
+        jeniskelamin, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama, tgl_pendaftaran
+        FROM public.informasipasiensudahbayar_v
+            WHERE cast(tglpembayaran AS DATE) = current_date
+        ORDER BY tglpembayaran  DESC");
+
+        if ($dataQuery == null){
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Data tagihan tidak ditemukan',
+            ], 401);
+        }
+
+        return response()->json([
+            'status'    => true,
+            'message'   => 'Data tagihan ditemukan',
+            'data'      => $dataQuery
+        ], 200);
+    }
+
     public function tagihanPasienUnlock($nomedis_or_notagihan)
     {
         $dataQuery = $this->getTagihanPasien($nomedis_or_notagihan);
