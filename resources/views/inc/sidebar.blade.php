@@ -27,6 +27,18 @@
                     <p>Table User Account</p>
                 </a>
             </li>
+            <li class="{{ request()->is('register-api-keys') ? 'active' : '' }}">
+                <a href="{{ route('registerAPIKeys') }}">
+                    <i class="tim-icons icon-puzzle-10"></i>
+                    <p>Register API Keys</p>
+                </a>
+            </li>
+            <li class="{{ request()->is('api-event-histories') ? 'active' : '' }}">
+                <a href="{{ route('apiEventHistories') }}">
+                    <i class="tim-icons icon-vector"></i>
+                    <p>Api Event Histories</p>
+                </a>
+            </li>
             <li>
                 <a href="./map.html">
                     <i class="tim-icons icon-button-power"></i>

@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('api_keys', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('company_name');
             $table->string('project_name');
             $table->string('key');
+            $table->tinyInteger('status_api_key')->default('0')->comment('0=tidak_aktif,2=aktif');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

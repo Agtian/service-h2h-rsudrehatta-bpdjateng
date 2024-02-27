@@ -22,6 +22,7 @@ class ApiKey
             'api_address'   => $request->header('host'),
             'url'           => $request->url(),
             'user_agent'    => json_encode($request->header('user_agent')),
+            'created_at'    => date('Y-m-d H:i:S'),
         ];
         $event_id   = DB::table('api_event_histories')->insertGetId($event_dd);
         $keys       = DB::table('api_keys')->select('id', 'key')->get();

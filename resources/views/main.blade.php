@@ -18,6 +18,10 @@
     <link href="{{ asset('assets/css/black-dashboard.css?v=1.0.0') }}" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="{{ asset('assets/demo/demo.css') }}" rel="stylesheet" />
+
+    @livewireStyles
+
+    @stack('styles')
 </head>
 
 <body class="">
@@ -39,9 +43,9 @@
 
         </div>
     </div>
-    <div class="fixed-plugin">
+    {{-- <div class="fixed-plugin">
         @include('inc.fixed-plugin')
-    </div>
+    </div> --}}
     <!--   Core JS Files   -->
     <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
@@ -49,7 +53,7 @@
     <script src="{{ asset('assets/js/plugins/perfect-scrollbar.jquery.min.js') }}"></script>
     <!--  Google Maps Plugin    -->
     <!-- Place this tag in your head or just before your close body tag. -->
-    <script src="{{ asset('assets/ps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE') }}"></script>
+    {{-- <script src="{{ asset('assets/ps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE') }}"></script> --}}
     <!-- Chart JS -->
     <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
     <!--  Notifications Plugin    -->
@@ -169,13 +173,17 @@
             demo.initDashboardPageCharts();
         });
     </script>
-    <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+    {{--<script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
     <script>
         window.TrackJS &&
         TrackJS.install({
             token: "ee6fab19c5a04ac1a32a645abde4613a",
             application: "black-dashboard-free"
         });
-    </script>
+    </script> --}}
+
+    @livewireScripts
+
+    @stack('scripts')
 </body>
 </html>

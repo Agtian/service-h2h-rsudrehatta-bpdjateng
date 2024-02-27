@@ -83,28 +83,28 @@ demo = {
     gradientFill.addColorStop(1, "rgba(249, 99, 59, 0.40)");
 
     myChart = new Chart(ctx, {
-      type: 'line',
-      responsive: true,
-      data: {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        datasets: [{
-          label: "Active Users",
-          borderColor: "#f96332",
-          pointBorderColor: "#FFF",
-          pointBackgroundColor: "#f96332",
-          pointBorderWidth: 2,
-          pointHoverRadius: 4,
-          pointHoverBorderWidth: 1,
-          pointRadius: 4,
-          fill: true,
-          backgroundColor: gradientFill,
-          borderWidth: 2,
-          data: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 630]
-        }]
-      },
-      options: gradientChartOptionsConfiguration
-    });
-  },
+        type: 'line',
+        responsive: true,
+        data: {
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            datasets: [{
+                label: "Active Users",
+                borderColor: "#f96332",
+                pointBorderColor: "#FFF",
+                pointBackgroundColor: "#f96332",
+                pointBorderWidth: 2,
+                pointHoverRadius: 4,
+                pointHoverBorderWidth: 1,
+                pointRadius: 4,
+                fill: true,
+                backgroundColor: gradientFill,
+                borderWidth: 2,
+                data: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 630]
+            }]
+        },
+        options: gradientChartOptionsConfiguration
+        });
+    },
 
   initDashboardPageCharts: function() {
 
@@ -421,11 +421,8 @@ demo = {
 
     });
 
-
-
     var chart_labels = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-    var chart_data = [100, 70, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100];
-
+    var chart_data = [0, 70, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100];
 
     var ctx = document.getElementById("chartBig1").getContext('2d');
 

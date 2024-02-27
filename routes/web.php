@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\ApiEventHistoriesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RegisterAPIKeysController;
 use App\Http\Controllers\TableLogPaymentController;
 use App\Http\Controllers\TableUserAccountController;
 use Illuminate\Support\Facades\Route;
@@ -23,3 +25,7 @@ Route::get('/', function () {
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboardHome');
 Route::get('table-log-payment', [TableLogPaymentController::class, 'index'])->name('tableLogPayment');
 Route::get('table-user-account', [TableUserAccountController::class, 'index'])->name('tableUserAccount');
+Route::get('register-api-keys', [RegisterAPIKeysController::class, 'index'])->name('registerAPIKeys');
+Route::post('register-api-keys/store', [RegisterAPIKeysController::class, 'store'])->name('storeRegisterApiKeys');
+
+Route::get('api-event-histories', [ApiEventHistoriesController::class, 'index'])->name('apiEventHistories');
