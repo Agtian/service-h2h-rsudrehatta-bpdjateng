@@ -70,7 +70,6 @@ class TableDataApiKey extends Component
                 'key'               => $this->get_token(40), // $this->createToken('api-h2h')->plainTextToken,
                 'status_api_key'    => $this->status_api_key,
             ]);
-
             return redirect()->route('registerAPIKeys')->with(['success' => 'Data berhasil di update.']);
         }
     }

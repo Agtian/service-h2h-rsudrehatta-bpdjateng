@@ -40,7 +40,10 @@
                 </a>
             </li>
             <li>
-                <a href="./map.html">
+                <form id="logout-form" action="{{ url('/logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+                <a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="tim-icons icon-button-power"></i>
                     <p>Log Out</p>
                 </a>

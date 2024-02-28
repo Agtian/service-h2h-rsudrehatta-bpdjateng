@@ -21,12 +21,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/', function () {
-    return response()->json([
-        'status'    => false,
-        'message'   => 'Akses tidak diperbolehkan'
-    ], 401);
-})->name('login');
+// Route::get('/', function () {
+//     return response()->json([
+//         'status'    => false,
+//         'message'   => 'Akses tidak diperbolehkan'
+//     ], 401);
+// })->name('login');
 
 Route::post('register-user', [AuthController::class, 'registerUser']);
 Route::post('login-user', [AuthController::class, 'loginUser']);
