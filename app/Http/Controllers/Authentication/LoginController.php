@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
@@ -28,14 +29,14 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             if (auth()->user()->access_user_id === 1) {
-                // jika user administrator
-                return redirect()->intended('/dashboard');
-            } else if (auth()->user()->access_user_id === 2) {
                 // jika user user
-                return redirect()->intended('/home');
+                return redirect('home');
+            } else if (auth()->user()->access_user_id === 2) {
+                // jika user administrator
+                return redirect('dashboard');
             } else {
                 // jika user user
-                return redirect()->intended('/home');
+                return redirect('login')->with('Email dan password salah!');
             }
         }
 
@@ -58,7 +59,7 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        auth()->logout();
+        Auth()->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/login');

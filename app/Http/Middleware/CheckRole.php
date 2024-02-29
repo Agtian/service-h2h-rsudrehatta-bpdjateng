@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpFoundation\Response;
 
 class CheckRole
 {
@@ -16,21 +15,17 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, ...$roles)
     {
-        // $statusRole = Auth::user()->level_user == $roles[0];
+        $roles = array_slice(func_get_args(), 2);
 
-        // if ($statusRole === true) {
-        //     return redirect('/redirect');
-        // } else {
-        //     auth()->logout();
-        //     $request->session()->invalidate();
-        //     $request->session()->regenerateToken();
-        //     return redirect('/login');
-        // }
+        // dd($roles);
 
-        if (in_array(auth()->user()->access_user_id, $roles)) {
-            return $next($request);
+        foreach ($roles as $role) {
+            $user = Auth::user()->level_user;
+            if ($user == $role) {
+                return $next($request);
+            }
         }
 
-        return redirect('/redirect');
+        return redirect()->route('login');
     }
 }
