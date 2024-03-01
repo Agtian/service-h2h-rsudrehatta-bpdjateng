@@ -17,8 +17,6 @@ class CheckRole
     {
         $roles = array_slice(func_get_args(), 2);
 
-        // dd($roles);
-
         foreach ($roles as $role) {
             $user = Auth::user()->level_user;
             if ($user == $role) {
@@ -26,6 +24,10 @@ class CheckRole
             }
         }
 
-        return redirect()->route('login');
+        Auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/login');
+        // return redirect()->route('login');
     }
 }

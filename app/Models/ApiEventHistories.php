@@ -9,5 +9,7 @@ class ApiEventHistories extends Model
 {
     use HasFactory;
 
+
+
     protected $guarded = [];
 }

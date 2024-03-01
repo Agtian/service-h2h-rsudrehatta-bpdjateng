@@ -25,17 +25,16 @@ class LoginController extends Controller
     public function doLogin(LoginRequest $request)
     {
         if (auth()->attempt($request->validated())) {
-
             $request->session()->regenerate();
-
-            if (auth()->user()->access_user_id === 1) {
+            if (auth()->user()->level_user === 1) {
                 // jika user user
                 return redirect('home');
-            } else if (auth()->user()->access_user_id === 2) {
+            } else if (auth()->user()->level_user === 2) {
                 // jika user administrator
+
+                // dd(redirect('dashboard'));
                 return redirect('dashboard');
             } else {
-                // jika user user
                 return redirect('login')->with('Email dan password salah!');
             }
         }
