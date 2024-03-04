@@ -41,13 +41,20 @@ class DashboardController extends Controller
                     AND api_key_id = 2
                     GROUP BY MONTHNAME(created_at), api_key_id");
 
+        $getCompletePayment = DB::select("SELECT MONTHNAME(created_at) as bulan, count(id) AS complete_payment
+                    FROM log_payments
+                    WHERE status_payment = 1
+                        AND YEAR(created_at) = YEAR(CURDATE())
+                    GROUP BY MONTHNAME(created_at)");
+
         $actionData = [
             'getCountAllRequest'        => count($getCountAllRequest),
             'getHistoryByUser'          => $getHistoryByUser,
             'getHistoryApiAll'          => $getHistoryApiAll,
             'getHistoryApiBPDTesting'   => $getHistoryApiBPDTesting,
             'getHistoryApiBPDRunning'   => $getHistoryApiBPDRunning,
-            'getHistoryApiBPDUnlisted'  => $getHistoryApiBPDUnlisted
+            'getHistoryApiBPDUnlisted'  => $getHistoryApiBPDUnlisted,
+            'getCompletePayment'        => $getCompletePayment
         ];
 
         return $actionData;
@@ -77,7 +84,8 @@ class DashboardController extends Controller
             'getHistoryApiAll'          => $this->getPerformance()['getHistoryApiAll'],
             'getHistoryApiBPDTesting'   => $this->getPerformance()['getHistoryApiBPDTesting'],
             'getHistoryApiBPDRunning'   => $this->getPerformance()['getHistoryApiBPDRunning'],
-            'getHistoryApiBPDUnlisted'  => $this->getPerformance()['getHistoryApiBPDUnlisted']
+            'getHistoryApiBPDUnlisted'  => $this->getPerformance()['getHistoryApiBPDUnlisted'],
+            'getCompletePayment'        => $this->getPerformance()['getCompletePayment']
         ]);
     }
 }

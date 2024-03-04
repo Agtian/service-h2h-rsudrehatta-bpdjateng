@@ -62,8 +62,8 @@
         <div class="col-lg-4">
             <div class="card card-chart">
                 <div class="card-header">
-                    <h5 class="card-category">Daily Sales</h5>
-                    <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i> 3,500€</h3>
+                    <h5 class="card-category">Total Request</h5>
+                    <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i> {{ $getCountAllRequest }}</h3>
                 </div>
                 <div class="card-body">
                     <div class="chart-area">
@@ -75,8 +75,8 @@
         <div class="col-lg-4">
             <div class="card card-chart">
                 <div class="card-header">
-                    <h5 class="card-category">Completed Tasks</h5>
-                    <h3 class="card-title"><i class="tim-icons icon-send text-success"></i> 12,100K</h3>
+                    <h5 class="card-category">Completed Payment</h5>
+                    <h3 class="card-title"><i class="tim-icons icon-send text-success"></i> {{ count($getCompletePayment) }}</h3>
                 </div>
                 <div class="card-body">
                     <div class="chart-area">
@@ -564,9 +564,12 @@
                 gradientStroke.addColorStop(0, 'rgba(66,134,121,0)'); //green colors
 
                 var data = {
-                labels: ['JUL', 'AUG', 'SEP', 'OCT', 'NOV'],
+                // labels: ['JUL', 'AUG', 'SEP', 'OCT', 'NOV'],
+                labels: [@foreach ($getCompletePayment as $item)
+                            '{{ substr($item->bulan, 0, 3) }}',
+                        @endforeach],
                 datasets: [{
-                    label: "My First dataset",
+                    label: "Count complete payment",
                     fill: true,
                     backgroundColor: gradientStroke,
                     borderColor: '#00d6b4',
@@ -580,8 +583,11 @@
                     pointHoverRadius: 4,
                     pointHoverBorderWidth: 15,
                     pointRadius: 4,
-                    data: [90, 27, 60, 12, 80],
-                }]
+                    // data: [90, 27, 60, 12, 80],
+                    data: [@foreach ($getCompletePayment as $item)
+                            '{{ substr($item->complete_payment, 0, 3) }}',
+                        @endforeach],
+                    }]
                 };
 
                 var myChart = new Chart(ctxGreen, {
