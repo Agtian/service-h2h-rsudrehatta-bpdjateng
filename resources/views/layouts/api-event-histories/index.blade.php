@@ -18,23 +18,21 @@
                                     <th>URL</th>
                                     <th>USER AGENT</th>
                                     <th>CREATED AT</th>
-                                    <th>CREATE AT</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($resultApiEventHistories as $item)
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration + $resultApiEventHistories->firstItem() - 1 }}</td>
-                                        <td>{{ $item->getUser->company }}</td>
+                                        <td>{{ $item->company }}</td>
                                         <td>{{ $item->api_address }}</td>
-                                        <td>{{ $item->key }}</td>
                                         <td>{{ $item->url }}</td>
                                         <td>{{ $item->user_agent }}</td>
                                         <td>{{ date('d/m/Y H:i:s', strtotime($item->created_at)) }}</td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="text-center">Data tidak tersedia !</td>
+                                        <td colspan="6" class="text-center">Data tidak tersedia !</td>
                                     </tr>
                                 @endforelse
                             </tbody>

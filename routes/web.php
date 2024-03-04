@@ -74,6 +74,6 @@ Route::prefix('dashboard')->middleware(['auth', 'checkrole:2'])->group(function 
     Route::get('/table-user-account', [TableUserAccountController::class, 'index'])->name('tableUserAccount');
     Route::get('/register-api-keys', [RegisterAPIKeysController::class, 'index'])->name('registerAPIKeys');
     Route::post('/register-api-keys/store', [RegisterAPIKeysController::class, 'store'])->name('storeRegisterApiKeys');
-});
 
-Route::get('api-event-histories', [ApiEventHistoriesController::class, 'index'])->name('apiEventHistories');
+    Route::get('api-event-histories', [ApiEventHistoriesController::class, 'index'])->name('apiEventHistories');
+});
