@@ -42,4 +42,6 @@ Route::post('response-reversal', [TagihanPasienController::class, 'storeResponse
 Route::middleware('api_key')->group(function () {
     Route::get('patient-bills', [ApiTagihanPasienController::class, 'patientBill']);
     Route::get('patient-bill', [ApiTagihanPasienController::class, 'patientBillById']);
+    Route::post('response-payment', [ApiTagihanPasienController::class, 'storeResponseFlag']);
+    Route::post('response-reversal', [ApiTagihanPasienController::class, 'storeResponseReversal']);
 });

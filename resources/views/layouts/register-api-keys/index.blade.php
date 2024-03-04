@@ -7,3 +7,12 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        window.addEventListener('close-modal', event => {
+            $('#addApiKey').modal('hide');
+            $('#editApiKey').modal('hide');
+        });
+    </script>
+@endpush

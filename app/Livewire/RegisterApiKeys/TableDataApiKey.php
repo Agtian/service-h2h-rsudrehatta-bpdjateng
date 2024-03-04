@@ -11,7 +11,7 @@ class TableDataApiKey extends Component
 {
     use WithPagination;
 
-    public $company_name, $project_name, $status_api;
+    public $id, $company_name, $project_name, $key, $status_api_key;
 
     function getToken($panjang)
     {
@@ -46,6 +46,22 @@ class TableDataApiKey extends Component
         ];
     }
 
+    public function resetField()
+    {
+        return [
+            'id'                => '',
+            'company_name'      => '',
+            'project_name'      => '',
+            'key'               => '',
+            'status_api_key'    => '',
+        ];
+    }
+
+    public function closeModal()
+    {
+        $this->resetField();
+    }
+
     public function render()
     {
         return view('livewire.register-api-keys.table-data-api-key', [
@@ -64,13 +80,42 @@ class TableDataApiKey extends Component
             $createdToken = $this->getToken(40);
         } else {
             ApiKey::create([
-                'user_id'           => 0, // Auth::user()->id,
+                'user_id'           => Auth::user()->id, // Auth::user()->id,
                 'company_name'      => $this->company_name,
                 'project_name'      => $this->project_name,
-                'key'               => $this->get_token(40), // $this->createToken('api-h2h')->plainTextToken,
+                'key'               => $this->getToken(40), // $this->createToken('api-h2h')->plainTextToken,
                 'status_api_key'    => $this->status_api_key,
             ]);
-            return redirect()->route('registerAPIKeys')->with(['success' => 'Data berhasil di update.']);
+            return redirect()->route('registerAPIKeys')->with(['success' => 'Data berhasil disimpan dan X-API-KEY sudah aktif.']);
+        }
+    }
+
+    public function edit(Int $id)
+    {
+        $data = ApiKey::find($id);
+        $this->id           = $data->id;
+        $this->company_name = $data->company_name;
+        $this->project_name = $data->project_name;
+        $this->key          = $data->key;
+        $this->status_api_key = $data->status_api_key;
+    }
+
+    public function update(Int $id)
+    {
+        $this->Validate();
+
+        $validateId = ApiKey::find($id);
+
+        if ($validateId) {
+            ApiKey::find($id)->update([
+                'company_name'      => $this->company_name,
+                'project_name'      => $this->project_name,
+                'key'               => $this->key,
+                'status_api_key'    => $this->status_api_key,
+            ]);
+            return redirect()->route('registerAPIKeys')->with(['success' => 'Data berhasil diperbarui.']);
+        } else {
+            return redirect()->route('registerAPIKeys')->with(['warning' => 'Key data tidak sesuai.']);
         }
     }
 }
