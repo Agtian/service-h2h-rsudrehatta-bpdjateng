@@ -3,6 +3,7 @@
 namespace App\Livewire\RegisterApiKeys;
 
 use App\Models\ApiKey;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -11,7 +12,7 @@ class TableDataApiKey extends Component
 {
     use WithPagination;
 
-    public $id, $company_name, $project_name, $key, $status_api_key;
+    public $id, $user_id, $company_name, $project_name, $key, $status_api_key;
 
     function getToken($panjang)
     {
@@ -43,6 +44,7 @@ class TableDataApiKey extends Component
             'company_name'      => 'required',
             'project_name'      => 'required',
             'status_api_key'    => 'required',
+            'user_id'           => 'required'
         ];
     }
 
@@ -54,6 +56,7 @@ class TableDataApiKey extends Component
             'project_name'      => '',
             'key'               => '',
             'status_api_key'    => '',
+            'user_id'    => '',
         ];
     }
 
@@ -66,6 +69,7 @@ class TableDataApiKey extends Component
     {
         return view('livewire.register-api-keys.table-data-api-key', [
             'resultAPIKeys' => ApiKey::paginate(10),
+            'resultUser'    => User::all(),
         ]);
     }
 
@@ -80,7 +84,7 @@ class TableDataApiKey extends Component
             $createdToken = $this->getToken(40);
         } else {
             ApiKey::create([
-                'user_id'           => Auth::user()->id, // Auth::user()->id,
+                'user_id'           => $this->user_id, // Auth::user()->id,
                 'company_name'      => $this->company_name,
                 'project_name'      => $this->project_name,
                 'key'               => $this->getToken(40), // $this->createToken('api-h2h')->plainTextToken,
@@ -94,6 +98,7 @@ class TableDataApiKey extends Component
     {
         $data = ApiKey::find($id);
         $this->id           = $data->id;
+        $this->user_id      = $data->user_id;
         $this->company_name = $data->company_name;
         $this->project_name = $data->project_name;
         $this->key          = $data->key;
@@ -108,6 +113,7 @@ class TableDataApiKey extends Component
 
         if ($validateId) {
             ApiKey::find($id)->update([
+                'user_id'           => $this->user_id,
                 'company_name'      => $this->company_name,
                 'project_name'      => $this->project_name,
                 'key'               => $this->key,

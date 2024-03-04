@@ -14,6 +14,22 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
+                                <label>User</label>
+                                <select class="form-control bg-darker" wire:model.defer="user_id">
+                                    <option value="">-- Select User --</option>
+                                    @foreach ($resultUser as $item)
+                                        <option value="{{ $item->id }}" {{ $item->id == $user_id ? 'selected' : '' }}>{{ $item->company.' - '.$item->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('company_name')
+                                    <span class="invalid-feedback" style="margin-top: -20px" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
                                 <label>Name</label>
                                 <input type="text" wire:model.defer="company_name" class="form-control bg-darker @error('company_name') is-invalid @enderror" value="{{ old('company_name') }}" placeholder="The name of the person in charge">
                                 @error('company_name')
