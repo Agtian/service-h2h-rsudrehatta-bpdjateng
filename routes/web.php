@@ -3,6 +3,11 @@
 use App\Http\Controllers\ApiEventHistoriesController;
 use App\Http\Controllers\Authentication\LoginController as AuthenticationLoginController;
 use App\Http\Controllers\Authentication\RedirectController;
+use App\Http\Controllers\Dashboard\UserDashboardController;
+use App\Http\Controllers\User\KatalogServiceController;
+use App\Http\Controllers\User\LogServiceController;
+use App\Http\Controllers\User\ApiKeyController;
+use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardUserController;
@@ -45,12 +50,21 @@ use Illuminate\Support\Facades\Route;
 //     Route::get('api-event-histories', [ApiEventHistoriesController::class, 'index'])->name('apiEventHistories');
 // });
 
+Route::get('/dashboard-user', [UserDashboardController::class, 'index']);
+Route::get('/katalog-service', [KatalogServiceController::class, 'index']);
+Route::get('/log-service', [LogServiceController::class, 'index']);
+Route::get('/api-key', [ApiKeyController::class, 'index']);
+Route::get('/profile', [ProfileController::class, 'index']);
+
+
 Route::middleware(['guest'])->group(function () {
     Route::get('/', [AuthenticationLoginController::class, 'index'])->name('login');
     Route::get('/login', [AuthenticationLoginController::class, 'index'])->name('login');
     Route::post('/login', [AuthenticationLoginController::class, 'doLogin']);
     Route::get('/register', [AuthenticationLoginController::class, 'register'])->name('register');
     Route::post('/register', [AuthenticationLoginController::class, 'registerProses']);
+
+    // Route::get('/dashboard-user', [UserDashboardController::class, 'index']);
 });
 
 

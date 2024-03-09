@@ -31,7 +31,6 @@ class LoginController extends Controller
                 return redirect('home');
             } else if (auth()->user()->level_user === 2) {
                 // jika user administrator
-
                 // dd(redirect('dashboard'));
                 return redirect('dashboard');
             } else {
