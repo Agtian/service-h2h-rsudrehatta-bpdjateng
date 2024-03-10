@@ -14,12 +14,14 @@ class LoginController extends Controller
 {
     public function index()
     {
-        return view('auth.form-login');
+        // return view('auth.form-login');
+        return view('template-dashboard.layouts.auth.login');
     }
 
     public function register()
     {
-        return view('auth.form-register');
+        // return view('auth.form-register');
+        return view('template-dashboard.layouts.auth.register');
     }
 
     public function doLogin(LoginRequest $request)
