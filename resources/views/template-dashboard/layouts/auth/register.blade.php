@@ -78,7 +78,7 @@
                             <form role="form" action="{{ url('register') }}" method="POST">
                                 @csrf
                                 <div class="mb-3">
-                                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Name" aria-label="Name">
+                                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" placeholder="Name" aria-label="Name">
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -86,7 +86,7 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" aria-label="Email">
+                                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Email" aria-label="Email">
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

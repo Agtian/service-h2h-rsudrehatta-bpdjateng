@@ -28,6 +28,7 @@ class LoginController extends Controller
     {
         if (auth()->attempt($request->validated())) {
             $request->session()->regenerate();
+
             if (auth()->user()->level_user === 1) {
                 // jika user user
                 return redirect('home');
