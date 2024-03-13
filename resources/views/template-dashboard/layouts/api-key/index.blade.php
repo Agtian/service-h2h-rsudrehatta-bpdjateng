@@ -16,7 +16,7 @@
                     <div class="col-md-12">
                         <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
                             <img class="w-3 me-3 mb-0" src="{{ asset('asset/img/logos/key.png')}}" alt="logo">
-                            <h6 class="mb-0">{{ $detailApiKey->key }}</h6>
+                            <h6 class="mb-0">{{ optional($detailApiKey)->key }}</h6>
                         </div>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                         <label for="key" class="col-form-label">API Key</label>
                     </div>
                     <div class="col-md-9">
-                        <input type="text" id="key" class="form-control" readonly value="{{ $detailApiKey->key }}">
+                        <input type="text" id="key" class="form-control" readonly value="{{ optional($detailApiKey)->key }}">
                     </div>
                 </div>
                 <div class="row g-3 mb-2 align-items-center">

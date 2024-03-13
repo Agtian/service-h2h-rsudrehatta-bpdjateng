@@ -34,7 +34,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0">{{ $item->api_address }}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{ $item->url }}</p>
                                     </td>
                                     <td class="align-middle text-center text-sm">
                                         <p class="text-xs font-weight-bold mb-0">{{ $item->user_agent }}</p>
