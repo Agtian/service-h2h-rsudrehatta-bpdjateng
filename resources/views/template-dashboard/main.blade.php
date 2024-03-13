@@ -40,8 +40,10 @@
     <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
         @if (Auth::user()->level_user == 1)
             @include('template-dashboard.inc.sidebar.sidebar-user')
-        @else
+        @elseif (Auth::user()->level_user == 2)
             @include('template-dashboard.inc.sidebar.sidebar-admin')
+        @else
+            @include('template-dashboard.inc.sidebar.sidebar-account-not-active')
         @endif
     </aside>
     <main class="main-content position-relative border-radius-lg ">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Authentication;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Models\ApiKey;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,8 +35,10 @@ class LoginController extends Controller
                 return redirect('home');
             } else if (auth()->user()->level_user === 2) {
                 // jika user administrator
-                // dd(redirect('dashboard'));
                 return redirect('dashboard');
+            } elseif (auth()->user()->level_user === 0) {
+                // Jika user belum aktif
+                return redirect('account');
             } else {
                 return redirect('login')->with('Email dan password salah!');
             }
@@ -49,10 +52,18 @@ class LoginController extends Controller
 
     public function registerProses(RegisterRequest $request)
     {
-        User::create([
+        $users = User::create([
+            'company'           => $request->company,
             'name'              => $request->name,
             'email'             => $request->validated('email'),
             'password'          => Hash::make($request->validated('password')),
+        ]);
+
+        ApiKey::create([
+            'user_id'       => $users['id'],
+            'company_name'  => $request->company,
+            'project_name'  => $request->project_name,
+            'key'           => md5(uniqid().rand(1000000, 9999999)),
         ]);
 
         return redirect('login')->with(['success' => 'Registrasi berhasil.']);

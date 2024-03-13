@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('company_name');
             $table->string('project_name');
             $table->string('key');
-            $table->tinyInteger('status_api_key')->default('0')->comment('0=tidak_aktif,2=aktif');
+            $table->tinyInteger('status_api_key')->default('0')->comment('0=tidak_aktif,1=aktif');
+            $table->tinyInteger('status_key')->default('0')->comment('0=development,1=production');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

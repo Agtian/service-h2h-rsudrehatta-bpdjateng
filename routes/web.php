@@ -68,6 +68,10 @@ Route::post('/logout', [AuthenticationLoginController::class, 'logout']);
 //     Route::get('/home', 'index')->name('dashboardUser');
 // })->middleware(['auth', 'checkrole:1']);
 
+Route::prefix('account')->middleware(['auth', 'checkrole:0'])->group(function () {
+    Route::get('/', [ProfileController::class, 'index']);
+});
+
 Route::prefix('home')->middleware(['auth', 'checkrole:1'])->group(function () {
     // Route::controller(DashboardUserController::class)->group(function () {
     //     Route::get('/', 'index')->name('dashboardUser');
@@ -80,7 +84,7 @@ Route::prefix('home')->middleware(['auth', 'checkrole:1'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index']);
 });
 
-Route::prefix('dashboard')->middleware(['auth', 'checkrole:2'])->group(function () { 
+Route::prefix('dashboard')->middleware(['auth', 'checkrole:2'])->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index']);
     Route::get('/katalog-service', [KatalogServiceController::class, 'index']);
     Route::get('/data-log-service', [DataLogServiceController::class, 'index']);
