@@ -56,6 +56,7 @@ class LoginController extends Controller
             'company'           => $request->company,
             'name'              => $request->name,
             'email'             => $request->validated('email'),
+            'no_hp'             => $request->no_hp,
             'password'          => Hash::make($request->validated('password')),
         ]);
 
@@ -63,7 +64,7 @@ class LoginController extends Controller
             'user_id'       => $users['id'],
             'company_name'  => $request->company,
             'project_name'  => $request->project_name,
-            'key'           => md5(uniqid().rand(1000000, 9999999)),
+            'key'           => md5(uniqid() . rand(1000000, 9999999)),
         ]);
 
         return redirect('login')->with(['success' => 'Registrasi berhasil.']);

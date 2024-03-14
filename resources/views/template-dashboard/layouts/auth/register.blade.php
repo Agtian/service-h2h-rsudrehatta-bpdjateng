@@ -77,7 +77,7 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <input type="no_hp" name="number" class="form-control @error('no_hp') is-invalid @enderror" value="{{ old('no_hp') }}" placeholder="Number Handphone SMS (0812200335)" aria-label="No Handphone">
+                                    <input type="number" name="no_hp" class="form-control @error('no_hp') is-invalid @enderror" value="{{ old('no_hp') }}" placeholder="Number Handphone SMS (0812200335)" aria-label="No Handphone">
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
