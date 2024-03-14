@@ -11,6 +11,15 @@
     </div>
 @endif
 
+@if (session('warning'))
+    <div class="alert alert-warning alert-dismissible fade show mx-4" role="alert">
+        <span class="alert-text"><strong>Perhatian!</strong> {{ session('warning') }}</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
+
 <div class="card shadow-lg mx-4">
     <div class="card-body p-3">
         <div class="row gx-4">
@@ -131,10 +140,19 @@
                         <div>
                             <i class="ni education_hat mr-2"></i>Aktivasi sekarang dan anda akan mendapatkan kode aktivasi melalui SMS
                             @if ($formInputKodeActivate == true)
-                                <div class="input-group mt-3">
-                                    <input type="text" class="form-control" placeholder="Masukan kode activation" aria-describedby="button-addon2">
-                                    <button class="btn btn-outline-primary mb-0" type="button" id="button-addon2">Send activation</button>
-                                </div>
+                                <form action="{{ url(request()->segment(1).'/verification-code') }}" method="POST">
+                                    @csrf
+                                    <div class="input-group mt-3">
+
+                                        <input type="text" class="form-control @error('kode_activation') is-invalid @enderror" name="kode_activation" placeholder="Masukan kode activation" aria-describedby="button-addon2">
+                                        <button class="btn btn-outline-primary mb-0" type="submit" id="button-addon2">Send activation</button>
+                                        @error('kode_activation')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </form>
                             @endif
                         </div>
                     </div>

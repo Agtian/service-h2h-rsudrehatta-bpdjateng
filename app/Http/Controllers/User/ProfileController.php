@@ -39,7 +39,49 @@ class ProfileController extends Controller
             'status'            => 1
         ]);
 
-        SMSHelper::shortsms($users->no_hp, "Kode aktivasi REHATTA SERVICE : $kode_activate. Hanya berlaku 10 menit. by RSUD dr Rehatta");
+        // SMSHelper::shortsms($users->no_hp, "Kode aktivasi REHATTA SERVICE : $kode_activate. Hanya berlaku 10 menit. by RSUD dr Rehatta");
         return redirect(request()->segment(1))->with(['success' => 'Kode verifikasi kami kirim melalu SMS ke nomor anda.']);
+    }
+
+    public function verificationCode(Request $request)
+    {
+        $validated = $request->validate([
+            'kode_activation'  => 'required|max:6|min:6'
+        ]);
+
+        $logActivateSMS = LogActivateSMS::where([
+                            ['kode_activation', $validated['kode_activation']],
+                            ['user_id', Auth::user()->id],
+                            ['status', 1]
+                        ])->first();
+
+        if ($logActivateSMS == null) {
+            return redirect(request()->segment(1))->with(['warning' => 'Kode verifikasi salah.']);
+        }
+
+        $selisihDetik = SMSHelper::differenceTime($logActivateSMS->created_at, date('H:i:s'));
+        $maxDetik     = 600;
+        if ($selisihDetik > $maxDetik) {
+            LogActivateSMS::find($logActivateSMS->id)->update(['status' => 2]); // not active
+            return redirect(request()->segment(1))->with(['warning' => 'Kode verifikasi sudah kadaluarsa, silahkan aktivasi lagi']);
+        }
+
+        LogActivateSMS::where([
+            ['kode_activation', $validated['kode_activation']],
+            ['user_id', Auth::user()->id],
+            ['status', 1]
+        ])->update([
+            'status' => 2 // not active
+        ]);
+
+        ApiKey::where('user_id', Auth::user()->id)->update([
+            'status_api_key' => 1, // developer
+        ]);
+
+        User::find(Auth::user()->id)->update([
+            'level_user' => 1 // user
+        ]);
+
+        return redirect(request()->segment(1))->with(['success' => 'Akun dan key developer anda sudah aktif']);
     }
 }

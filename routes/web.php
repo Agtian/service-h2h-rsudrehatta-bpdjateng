@@ -71,6 +71,7 @@ Route::post('/logout', [AuthenticationLoginController::class, 'logout']);
 Route::prefix('account')->middleware(['auth', 'checkrole:0, 3, 4 ,5'])->group(function () {
     Route::get('/', [ProfileController::class, 'index']);
     Route::post('/activate-account', [ProfileController::class, 'activateAccount']);
+    Route::post('/verification-code', [ProfileController::class, 'verificationCode']);
 });
 
 Route::prefix('home')->middleware(['auth', 'checkrole:1'])->group(function () {
