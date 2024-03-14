@@ -1,6 +1,16 @@
 @extends('template-dashboard.main')
 
 @section('content')
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show mx-4" role="alert">
+        <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+        <span class="alert-text"><strong>Success!</strong> {{ session('success') }}</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
+
 <div class="card shadow-lg mx-4">
     <div class="card-body p-3">
         <div class="row gx-4">
@@ -110,13 +120,51 @@
                     </div>
                 </div>
                 <div class="card-header text-center border-0 pt-0 pt-lg-2 pb-4 pb-lg-3">
-                    <a href="" class="btn btn-md btn-danger float-right mb-0 d-none d-lg-block">Activate Account Now</a>
+                    @if ($formModalActivate == false)
+                        <button type="button" class="btn bg-gradient-danger" data-bs-toggle="modal" data-bs-target="#modalActivation">
+                            Activate Account Now
+                        </button>
+                    @endif
                 </div>
                 <div class="card-body pt-0">
                     <div class="text-center mt-4">
                         <div>
-                            <i class="ni education_hat mr-2"></i>Anda akan mendapatkan kode aktivasi melalui SMS
+                            <i class="ni education_hat mr-2"></i>Aktivasi sekarang dan anda akan mendapatkan kode aktivasi melalui SMS
+                            @if ($formInputKodeActivate == true)
+                                <div class="input-group mt-3">
+                                    <input type="text" class="form-control" placeholder="Masukan kode activation" aria-describedby="button-addon2">
+                                    <button class="btn btn-outline-primary mb-0" type="button" id="button-addon2">Send activation</button>
+                                </div>
+                            @endif
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="modalActivation" tabindex="-1" role="dialog" aria-labelledby="modalActivation" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalActivation">Activate Account Now</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ url(request()->segment(1).'/activate-account') }}" method="POST">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="py-3 text-center">
+                                    <i class="ni ni-bell-55 ni-3x"></i>
+                                    <h4 class="text-gradient text-danger mt-4">You should read this!</h4>
+                                    <p>Are you sure you want to activate your account?</p>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Ok, Got it</button>
+                                <button type="button" class="btn btn-dark text-white ml-auto" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -124,3 +172,31 @@
     </div>
 </div>
 @endsection
+
+@push('script')
+<script>
+
+    window.addEventListener('swal:modal', event => {
+        swal({
+          title: event.detail.message,
+          text: event.detail.text,
+          icon: event.detail.type,
+        });
+    });
+
+    window.addEventListener('swal:confirm', event => {
+        swal({
+          title: event.detail.message,
+          text: event.detail.text,
+          icon: event.detail.type,
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
+            window.livewire.emit('remove');
+          }
+        });
+    });
+     </script>
+@endpush

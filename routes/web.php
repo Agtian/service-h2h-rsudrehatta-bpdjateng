@@ -68,8 +68,9 @@ Route::post('/logout', [AuthenticationLoginController::class, 'logout']);
 //     Route::get('/home', 'index')->name('dashboardUser');
 // })->middleware(['auth', 'checkrole:1']);
 
-Route::prefix('account')->middleware(['auth', 'checkrole:0'])->group(function () {
+Route::prefix('account')->middleware(['auth', 'checkrole:0, 3, 4 ,5'])->group(function () {
     Route::get('/', [ProfileController::class, 'index']);
+    Route::post('/activate-account', [ProfileController::class, 'activateAccount']);
 });
 
 Route::prefix('home')->middleware(['auth', 'checkrole:1'])->group(function () {

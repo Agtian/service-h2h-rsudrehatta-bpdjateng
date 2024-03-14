@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('no_hp', 20);
             $table->string('password');
-            $table->tinyInteger('level_user')->default('0')->comment('0=user,2=admin');
+            $table->tinyInteger('level_user')->default('0')->comment('0=not_active,1=user,2=admin,3=get_kode_activate,4=activation_request,5=activation_request_rejected');
             $table->rememberToken();
             $table->timestamps();
         });

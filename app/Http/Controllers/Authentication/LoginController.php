@@ -36,7 +36,7 @@ class LoginController extends Controller
             } else if (auth()->user()->level_user === 2) {
                 // jika user administrator
                 return redirect('dashboard');
-            } elseif (auth()->user()->level_user === 0) {
+            } elseif (auth()->user()->level_user === 0 || auth()->user()->level_user === 3 || auth()->user()->level_user === 4 || auth()->user()->level_user === 5) {
                 // Jika user belum aktif
                 return redirect('account');
             } else {
