@@ -43,31 +43,10 @@ class ProfileController extends Controller
         return redirect(request()->segment(1))->with(['success' => 'Kode verifikasi kami kirim melalu SMS ke nomor anda.']);
     }
 
-    public function verificationCode(Request $request)
+    public function validatedSuccess($kode_activation)
     {
-        $validated = $request->validate([
-            'kode_activation'  => 'required|max:6|min:6'
-        ]);
-
-        $logActivateSMS = LogActivateSMS::where([
-                            ['kode_activation', $validated['kode_activation']],
-                            ['user_id', Auth::user()->id],
-                            ['status', 1]
-                        ])->first();
-
-        if ($logActivateSMS == null) {
-            return redirect(request()->segment(1))->with(['warning' => 'Kode verifikasi salah.']);
-        }
-
-        $selisihDetik = SMSHelper::differenceTime($logActivateSMS->created_at, date('H:i:s'));
-        $maxDetik     = 600;
-        if ($selisihDetik > $maxDetik) {
-            LogActivateSMS::find($logActivateSMS->id)->update(['status' => 2]); // not active
-            return redirect(request()->segment(1))->with(['warning' => 'Kode verifikasi sudah kadaluarsa, silahkan aktivasi lagi']);
-        }
-
         LogActivateSMS::where([
-            ['kode_activation', $validated['kode_activation']],
+            ['kode_activation', $kode_activation],
             ['user_id', Auth::user()->id],
             ['status', 1]
         ])->update([
@@ -82,6 +61,39 @@ class ProfileController extends Controller
             'level_user' => 1 // user
         ]);
 
-        return redirect(request()->segment(1))->with(['success' => 'Akun dan key developer anda sudah aktif']);
+        return redirect()->route('blankPage')->with(['success' => 'Akun dan key developer anda sudah aktif. Silahkan Log Out dan Login kembali']);
+    }
+
+    public function verificationCode(Request $request)
+    {
+        $validated = $request->validate([
+            'kode_activation'  => 'required|max:6|min:6'
+        ]);
+
+        $logActivateSMS = LogActivateSMS::where([
+            ['kode_activation', $validated['kode_activation']],
+            ['user_id', Auth::user()->id],
+            ['status', 1]
+        ])->first();
+
+        if ($logActivateSMS == null) {
+            return redirect(request()->segment(1))->with(['warning' => 'Kode verifikasi salah.']);
+        }
+
+        $selisihDetik = SMSHelper::differenceTime($logActivateSMS->created_at, date('H:i:s'));
+        $maxDetik     = 600;
+        $day          = SMSHelper::differenceDay(date('Y-m-d'), date('Y-m-d', strtotime($logActivateSMS->created_at)));
+
+        if ($day == 0) {
+            if (date('H', strtotime($logActivateSMS->created_at)) == date('H')) {
+                if ($selisihDetik < $maxDetik) {
+                    return $this->validatedSuccess($validated['kode_activation']);
+                }
+            }
+        }
+
+        LogActivateSMS::find($logActivateSMS->id)->update(['status' => 2]); // not active
+        User::find(Auth::user()->id)->update(['level_user' => 0]); // user tidak aktif
+        return redirect(request()->segment(1))->with(['warning' => 'Kode verifikasi sudah kadaluarsa, silahkan aktivasi lagi']);
     }
 }

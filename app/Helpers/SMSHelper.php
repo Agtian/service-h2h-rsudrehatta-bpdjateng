@@ -32,10 +32,10 @@ class SMSHelper
 
     public static function countTime($time1, $time2)
     {
-        $time1_unix = strtotime(date('Y-m-d').' '.$time1.':00');
-        $time2_unix = strtotime(date('Y-m-d').' '.$time2.':00');
+        $time1_unix = strtotime(date('Y-m-d') . ' ' . $time1 . ':00');
+        $time2_unix = strtotime(date('Y-m-d') . ' ' . $time2 . ':00');
 
-        $begin_day_unix = strtotime(date('Y-m-d').' 00:00:00');
+        $begin_day_unix = strtotime(date('Y-m-d') . ' 00:00:00');
 
         return date('H:i', ($time1_unix + ($time2_unix - $begin_day_unix)));
     }
@@ -55,10 +55,18 @@ class SMSHelper
         $menit = $diff - $jam * (60 * 60);
 
         // satuan detik
-        return number_format($diff,0,",",".");
+        return number_format($diff, 0, ",", ".");
 
         //menampilkan / print hasil
         // echo 'Hasilnya adalah '.number_format($diff,0,",",".").' detik<br /><br />';
         // echo 'Sehingga Anda memiliki sisa waktu promosi selama: ' . $jam .  ' jam dan ' . floor( $menit / 60 ) . ' menit';
+    }
+
+    public static function differenceDay($waktu_awal, $waktu_akhir)
+    {
+        $waktu_awal     = date_create(date('Y-m-d', strtotime($waktu_awal)));
+        $waktu_akhir    = date_create(date('Y-m-d', strtotime($waktu_akhir)));
+        $difference     = date_diff($waktu_awal, $waktu_akhir);
+        return $difference->days;
     }
 }

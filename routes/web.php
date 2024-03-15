@@ -18,6 +18,7 @@ use App\Http\Controllers\DashboardUserController;
 use App\Http\Controllers\RegisterAPIKeysController;
 use App\Http\Controllers\TableLogPaymentController;
 use App\Http\Controllers\TableUserAccountController;
+use App\Http\Controllers\User\BlankController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -68,6 +69,8 @@ Route::post('/logout', [AuthenticationLoginController::class, 'logout']);
 //     Route::get('/home', 'index')->name('dashboardUser');
 // })->middleware(['auth', 'checkrole:1']);
 
+
+
 Route::prefix('account')->middleware(['auth', 'checkrole:0, 3, 4 ,5'])->group(function () {
     Route::get('/', [ProfileController::class, 'index']);
     Route::post('/activate-account', [ProfileController::class, 'activateAccount']);
@@ -78,6 +81,7 @@ Route::prefix('home')->middleware(['auth', 'checkrole:1'])->group(function () {
     // Route::controller(DashboardUserController::class)->group(function () {
     //     Route::get('/', 'index')->name('dashboardUser');
     // });
+    Route::get('/accounts', [BlankController::class, 'index'])->name('blankPage');
 
     Route::get('/', [UserDashboardController::class, 'index']);
     Route::get('/katalog-service', [KatalogServiceController::class, 'index']);
