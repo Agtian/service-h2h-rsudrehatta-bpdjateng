@@ -25,11 +25,20 @@ class ApiKey
             'created_at'    => date('Y-m-d H:i:s'),
         ];
         $event_id   = DB::table('api_event_histories')->insertGetId($event_dd);
-        $keys       = DB::table('api_keys')->select('id', 'key')->get();
+        $keys       = DB::table('api_keys')->select('id', 'key', 'status_api_key')->get();
 
         $result = false;
         foreach ($keys as $item) {
             if ($item->key == $request->header('api_key')) {
+                DB::table('api_event_histories')->where('id', $event_id)->update(['api_key_id' => $item->id]);
+                $result = true;
+                if ($item->status_api_key == 0) {
+                    $data = [
+                        'status'    => 400,
+                        'message'   => 'API Key not active',
+                    ];
+                    return response()->json($data);
+                }
                 DB::table('api_event_histories')->where('id', $event_id)->update(['api_key_id' => $item->id]);
                 $result = true;
                 break;
