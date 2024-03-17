@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\SMSHelper;
 use App\Http\Controllers\Controller;
 use App\Models\LogPayment;
 use Illuminate\Http\Request;
@@ -74,45 +75,6 @@ class TagihanPasienController extends Controller
         return $response;
     }
 
-    public function validatedValuePaymentReversal($nokuitansi, $nopembayaran, $nobuktibayar, $totalbiayapelayanan, $nama_pasien, $no_rekam_medik)
-    {
-        $dataQuery = $this->getTagihanPasien($nokuitansi);
-
-        if ($dataQuery[0]->nopembayaran != $nopembayaran) {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Nomor pembayaran tidak sesuai',
-            ], 401);
-        }
-
-        if ($dataQuery[0]->nobuktibayar != $nobuktibayar) {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Nomor bukti bayar tidak sesuai',
-            ], 401);
-        }
-
-        if ($dataQuery[0]->totalbiayapelayanan != $totalbiayapelayanan) {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Total biaya tidak sesuai',
-            ], 401);
-        }
-
-        if ($dataQuery[0]->nama_pasien != $nama_pasien) {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Nama pasien tidak tidak sesuai',
-            ], 401);
-        }
-
-        if ($dataQuery[0]->no_rekam_medik != $no_rekam_medik) {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Nomor rekam medis tidak tidak sesuai',
-            ], 401);
-        }
-    }
     public function patientBill()
     {
         $dataQuery = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
@@ -164,6 +126,7 @@ class TagihanPasienController extends Controller
             'nama_pasien'           => 'required',
             'no_rekam_medik'        => 'required',
             'tanggal_lahir'         => 'required',
+            'tgl_pendaftaran'       => 'required',
             'status_payment'        => 'required',
         ];
         $validator = Validator::make($request->all(), $rules);
@@ -176,21 +139,6 @@ class TagihanPasienController extends Controller
             ], 401);
         }
 
-        $queryLogPayments = DB::connection('mysql')->select("SELECT id, nokuitansi, status_payment
-                                                            FROM log_payments
-                                                            WHERE nokuitansi = $request->nokuitansi
-                                                            ORDER BY created_at DESC
-                                                            LIMIT 1");
-
-        if (count($queryLogPayments) != 0 && $queryLogPayments[0]->status_payment == 1) {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Process flag payment is failed, payment status in full',
-            ], 401);
-        }
-
-        $this->validatedValuePaymentReversal($request->nokuitansi, $request->nopembayaran, $request->nobuktibayar, $request->totalbiayapelayanan, $request->nama_pasien, $request->no_rekam_medik);
-
         if ($validator->fails()) {
             return response()->json([
                 'status'    => false,
@@ -199,10 +147,91 @@ class TagihanPasienController extends Controller
             ], 401);
         }
 
+        $queryLogPayments = LogPayment::select('id', 'nokuitansi', 'status_payment')
+                        ->where('nokuitansi', $request->nokuitansi)
+                        ->first();
+
+        if ($queryLogPayments->status_payment == 1) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Process flag payment is failed, payment status in full',
+            ], 401);
+        }
+
+        if ($dataQuery[0]->nopembayaran != $request->nopembayaran) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Process flag payment is failed',
+                'data'      => [
+                    'nopembayaran' => ['Nomor pembayaran tidak sesuai']
+                ]
+            ], 401);
+        }
+
+        if ($dataQuery[0]->nobuktibayar != $request->nobuktibayar) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Process flag payment is failed',
+                'data'      => [
+                    'nobuktibayar' => ['Nomor bukti bayar tidak sesuai']
+                ]
+            ], 401);
+        }
+
+        if ($dataQuery[0]->totalbiayapelayanan != $request->totalbiayapelayanan) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Process flag payment is failed',
+                'data'      => [
+                    'totalbiayapelayanan' => ['Total biaya tidak sesuai']
+                ]
+            ], 401);
+        }
+
+        if ($dataQuery[0]->nama_pasien != $request->nama_pasien) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Process flag payment is failed',
+                'data'      => [
+                    'nama_pasien' => ['Nama pasien tidak tidak sesuai']
+                ]
+            ], 401);
+        }
+
+        if ($dataQuery[0]->no_rekam_medik != $request->no_rekam_medik) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Process flag payment is failed',
+                'data'      => [
+                    'no_rekam_medik' => ['Nomor rekam medis tidak tidak sesuai']
+                ]
+            ], 401);
+        }
+
+        if ($dataQuery[0]->tanggal_lahir != $request->tanggal_lahir) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Process flag payment is failed',
+                'data'      => [
+                    'tanggal_lahir' => ['Tanggal lahir tidak tidak sesuai']
+                ]
+            ], 401);
+        }
+
+        if ($dataQuery[0]->tgl_pendaftaran != $request->tgl_pendaftaran) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Process flag payment is failed',
+                'data'      => [
+                    'tgl_pendaftaran' => ['Tanggal pendaftaran tidak tidak sesuai']
+                ]
+            ], 401);
+        }
+
         if ($request->status_payment > 2) {
             return response()->json([
                 'status'    => false,
-                'message'   => 'Payment flag status not found',
+                'message'   => 'Payment flag status unrecognized',
             ], 401);
         }
 
@@ -218,8 +247,8 @@ class TagihanPasienController extends Controller
         $dataPayment->jeniskelamin          = $dataQuery[0]->jeniskelamin;
         $dataPayment->usia                  = $dataQuery[0]->usia;
         $dataPayment->ruangan_nama          = $dataQuery[0]->ruangan_nama;
-        $dataPayment->tgl_pendaftaran       = $dataQuery[0]->tgl_pendaftaran;
-        $dataPayment->status_payment            = $request->status_payment;
+        $dataPayment->tgl_pendaftaran       = $request->tgl_pendaftaran;
+        $dataPayment->status_payment        = $request->status_payment;
         $dataPayment->payment_response_status   = $this->detailStatusPayment($request->status_payment)['status'];
         $dataPayment->payment_response_message  = $this->detailStatusPayment($request->status_payment)['message'];
         $dataPayment->save();
@@ -240,6 +269,7 @@ class TagihanPasienController extends Controller
             'nama_pasien'           => 'required',
             'no_rekam_medik'        => 'required',
             'tanggal_lahir'         => 'required',
+            'tgl_pendaftaran'       => 'required',
             'status_reversal'       => 'required',
         ];
 
@@ -253,7 +283,90 @@ class TagihanPasienController extends Controller
             ], 401);
         }
 
-        $this->validatedValuePaymentReversal($request->nokuitansi, $request->nopembayaran, $request->nobuktibayar, $request->totalbiayapelayanan, $request->nama_pasien, $request->no_rekam_medik);
+        if ($dataQuery[0]->nopembayaran != $request->nopembayaran) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Process flag payment is failed',
+                'data'      => [
+                    'nopembayaran' => ['Nomor pembayaran tidak sesuai']
+                ]
+            ], 401);
+        }
+
+        if ($dataQuery[0]->nobuktibayar != $request->nobuktibayar) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Process flag payment is failed',
+                'data'      => [
+                    'nobuktibayar' => ['Nomor bukti bayar tidak sesuai']
+                ]
+            ], 401);
+        }
+
+        if ($dataQuery[0]->totalbiayapelayanan != $request->totalbiayapelayanan) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Process flag payment is failed',
+                'data'      => [
+                    'totalbiayapelayanan' => ['Total biaya tidak sesuai']
+                ]
+            ], 401);
+        }
+
+        if ($dataQuery[0]->nama_pasien != $request->nama_pasien) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Process flag payment is failed',
+                'data'      => [
+                    'nama_pasien' => ['Nama pasien tidak tidak sesuai']
+                ]
+            ], 401);
+        }
+
+        if ($dataQuery[0]->no_rekam_medik != $request->no_rekam_medik) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Process flag payment is failed',
+                'data'      => [
+                    'no_rekam_medik' => ['Nomor rekam medis tidak tidak sesuai']
+                ]
+            ], 401);
+        }
+
+        if ($dataQuery[0]->tanggal_lahir != $request->tanggal_lahir) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Process flag payment is failed',
+                'data'      => [
+                    'tanggal_lahir' => ['Tanggal lahir tidak tidak sesuai']
+                ]
+            ], 401);
+        }
+
+        if ($dataQuery[0]->tgl_pendaftaran != $request->tgl_pendaftaran) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Process flag payment is failed',
+                'data'      => [
+                    'tgl_pendaftaran' => ['Tanggal pendaftaran tidak tidak sesuai']
+                ]
+            ], 401);
+        }
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Process flag payment is failed',
+                'data'      => $validator->errors()
+            ], 401);
+        }
+
+        if ($request->status_payment > 2) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Payment flag status unrecognized',
+            ], 401);
+        }
 
         if ($validator->fails()) {
             return response()->json([

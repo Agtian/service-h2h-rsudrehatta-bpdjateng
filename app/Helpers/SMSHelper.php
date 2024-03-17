@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\MYSQL_SMS\Outbox;
+use Illuminate\Support\Facades\DB;
 
 class SMSHelper
 {

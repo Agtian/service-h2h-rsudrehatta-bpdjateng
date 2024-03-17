@@ -30,8 +30,31 @@ class KatalogServiceController extends Controller
             ]
         }';
 
+        $responseFlag = '{
+            "status": true,
+            "message": "Process flag payment is successfuly"
+        }';
+
+        $responseFlagStatusFull = '{
+            "status": false,
+            "message": "Process flag payment is failed, payment status in full"
+        }';
+
+        $responseFlagNoPembayaranFail = '{
+            "status": false,
+            "message": "Nomor pembayaran tidak sesuai"
+        }';
+
+        $responseReversal = '{
+            "status": true,
+            "message": "Process flag reversal is successfuly"
+        }';
+
         return view('template-dashboard.layouts.katalog-service.index', [
             'responseGetDataTagihan'    => $responseGetDataTagihan,
+            'responseFlag'              => $responseFlag,
+            'responseFlagStatusFull'    => $responseFlagStatusFull,
+            'responseReversal'          => $responseReversal,
         ]);
     }
 }
