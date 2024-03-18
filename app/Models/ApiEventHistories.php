@@ -11,8 +11,5 @@ class ApiEventHistories extends Model
 
     protected $guarded = [];
 
-    public function getUser()
-    {
-        return $this->belongsTo(User::class, 'api_key_id');
-    }
+    protected $table = 'api_event_histories';
 }

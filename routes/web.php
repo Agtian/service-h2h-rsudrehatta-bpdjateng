@@ -55,6 +55,8 @@ use Illuminate\Support\Facades\Route;
 //     Route::get('api-event-histories', [ApiEventHistoriesController::class, 'index'])->name('apiEventHistories');
 // });
 
+Route::post('/logout', [AuthenticationLoginController::class, 'logout']);
+
 Route::middleware(['guest'])->group(function () {
     Route::get('/', [AuthenticationLoginController::class, 'index'])->name('login');
     Route::get('/login', [AuthenticationLoginController::class, 'index'])->name('login');
@@ -62,14 +64,6 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/register', [AuthenticationLoginController::class, 'register'])->name('register');
     Route::post('/register', [AuthenticationLoginController::class, 'registerProses']);
 });
-
-Route::post('/logout', [AuthenticationLoginController::class, 'logout']);
-
-// Route::controller(DashboardUserController::class)->group(function () {
-//     Route::get('/home', 'index')->name('dashboardUser');
-// })->middleware(['auth', 'checkrole:1']);
-
-
 
 Route::prefix('account')->middleware(['auth', 'checkrole:0, 3, 4 ,5'])->group(function () {
     Route::get('/', [ProfileController::class, 'index']);

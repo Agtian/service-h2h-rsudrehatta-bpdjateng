@@ -15,20 +15,21 @@
                                 <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">User</th>
                                 <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7 ps-2">API Address</th>
                                 <th class="text-center text-uppercase text-white text-xxs font-weight-bolder opacity-7">User Agent</th>
+                                <th class="text-center text-uppercase text-white text-xxs font-weight-bolder opacity-7">Status Key</th>
                                 <th class="text-center text-uppercase text-white text-xxs font-weight-bolder opacity-7">Created</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($resultLogServices as $item)
-                                <tr class="{{ optional($item->getUser)->name == '' ? 'bg-gray-200' : '' }}">
+                                <tr class="{{ $item->name == '' ? 'bg-gray-200' : '' }}">
                                     <td>
                                         <div class="d-flex px-2 py-1">
                                             <div>
                                                 <i class="avatar avatar-sm me-3 ni ni-single-02 text-success text-sm opacity-10"></i>
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">{{ optional($item->getUser)->name }}</h6>
-                                                <p class="text-xs text-secondary mb-0">{{ optional($item->getUser)->email }}</p>
+                                                <h6 class="mb-0 text-sm">{{ $item->name }}</h6>
+                                                <p class="text-xs text-secondary mb-0">{{ $item->email }}</p>
                                                 <p class="text-xs text-secondary mb-0">{{ $item->company_name }}<p>
                                             </div>
                                         </div>
@@ -39,8 +40,15 @@
                                     <td class="align-middle text-center text-sm">
                                         <p class="text-xs font-weight-bold mb-0">{{ $item->user_agent }}</p>
                                     </td>
+                                    <td>
+                                        @if ($item->status_key == 0)
+                                            <button class="btn btn-sm bg-gradient-info w-100">Developer</button>
+                                        @else
+                                            <button class="btn btn-sm bg-gradient-success w-100">Production</button>
+                                        @endif
+                                    </td>
                                     <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">{{ date('h:i:s d/m/Y', strtotime($item->created_at)) }}</span>
+                                        <span class="text-secondary text-xs font-weight-bold">{{ date('h:i:s d/m/Y', strtotime($item->histories_created_ad)) }}</span>
                                     </td>
                                 </tr>
                             @empty
