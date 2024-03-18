@@ -30,6 +30,16 @@ class KatalogServiceController extends Controller
             ]
         }';
 
+        $responseGetTagihanNotInclucdeParameter = '{
+            "status": false,
+            "message": "Parameter nomor medis tidak ditemukan"
+        }';
+
+        $responseGetTagihanTidakDitemukan = '{
+            "status": false,
+            "message": "Data tagihan tidak ditemukan"
+        }';
+
         $responseFlag = '{
             "status": true,
             "message": "Process flag payment is successfuly"
@@ -42,7 +52,41 @@ class KatalogServiceController extends Controller
 
         $responseFlagNoPembayaranFail = '{
             "status": false,
-            "message": "Nomor pembayaran tidak sesuai"
+            "message": "Nomor medis tidak sesuai"
+        }';
+
+        $responseFlagRequired = '{
+            "status": false,
+            "message": "Process flag payment is failed",
+            "data": {
+                "nopembayaran": [
+                    "The nopembayaran field is required."
+                ],
+                "nokuitansi": [
+                    "The nokuitansi field is required."
+                ],
+                "nobuktibayar": [
+                    "The nobuktibayar field is required."
+                ],
+                "totalbiayapelayanan": [
+                    "The totalbiayapelayanan field is required."
+                ],
+                "nama_pasien": [
+                    "The nama pasien field is required."
+                ],
+                "no_rekam_medik": [
+                    "The no rekam medik field is required."
+                ],
+                "tanggal_lahir": [
+                    "The tanggal lahir field is required."
+                ],
+                "tgl_pendaftaran": [
+                    "The tgl pendaftaran field is required."
+                ],
+                "status_payment": [
+                    "The status payment field is required."
+                ]
+            }
         }';
 
         $responseReversal = '{
@@ -50,11 +94,56 @@ class KatalogServiceController extends Controller
             "message": "Process flag reversal is successfuly"
         }';
 
+        $responseReversalRequired = '{
+            "status": false,
+            "message": "Process reversal is failed",
+            "data": {
+                "nopembayaran": [
+                    "The nopembayaran field is required."
+                ],
+                "nokuitansi": [
+                    "The nokuitansi field is required."
+                ],
+                "nobuktibayar": [
+                    "The nobuktibayar field is required."
+                ],
+                "totalbiayapelayanan": [
+                    "The totalbiayapelayanan field is required."
+                ],
+                "nama_pasien": [
+                    "The nama pasien field is required."
+                ],
+                "no_rekam_medik": [
+                    "The no rekam medik field is required."
+                ],
+                "tanggal_lahir": [
+                    "The tanggal lahir field is required."
+                ],
+                "tgl_pendaftaran": [
+                    "The tgl pendaftaran field is required."
+                ],
+                "status_reversal": [
+                    "The status reversal field is required."
+                ]
+            }
+        }';
+
+        $responseReversalNotFound = '{
+            "status": false,
+            "message": "Data reversal tidak ditemukan"
+        }';
+
         return view('template-dashboard.layouts.katalog-service.index', [
-            'responseGetDataTagihan'    => $responseGetDataTagihan,
-            'responseFlag'              => $responseFlag,
-            'responseFlagStatusFull'    => $responseFlagStatusFull,
-            'responseReversal'          => $responseReversal,
+            'responseGetDataTagihan'                    => $responseGetDataTagihan,
+            'responseGetTagihanNotInclucdeParameter'    => $responseGetTagihanNotInclucdeParameter,
+            'responseGetTagihanTidakDitemukan'          => $responseGetTagihanTidakDitemukan,
+            'responseFlag'                              => $responseFlag,
+            'responseFlagStatusFull'                    => $responseFlagStatusFull,
+            'responseFlagNoPembayaranFail'              => $responseFlagNoPembayaranFail,
+            'responseFlagRequired'                      => $responseFlagRequired,
+            'responseReversal'                          => $responseReversal,
+            'responseReversalRequired'                  => $responseReversalRequired,
+            'responseReversalNotFound'                  => $responseReversalNotFound
         ]);
     }
 }

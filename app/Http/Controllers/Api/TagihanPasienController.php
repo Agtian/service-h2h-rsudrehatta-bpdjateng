@@ -84,24 +84,26 @@ class TagihanPasienController extends Controller
                                 WHERE cast(tglpembayaran AS DATE) = current_date
                             ORDER BY tglpembayaran  DESC");
 
+
         if ($dataQuery == null) {
             return response()->json([
                 'status'    => false,
                 'message'   => 'Data tagihan tidak ditemukan',
             ], 401);
         }
-
-        return response()->json([
-            'status'    => true,
-            'message'   => 'Data tagihan ditemukan',
-            'data'      => $dataQuery
-        ], 200);
     }
 
     public function patientBillById(Request $request)
     {
         $dataQuery = $this->getTagihanPasien($request->nomormedis);
 
+        if ($request->nomormedis == null) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Parameter nomor medis tidak ditemukan',
+            ], 401);
+        }
+
         if ($dataQuery == null) {
             return response()->json([
                 'status'    => false,
@@ -113,7 +115,7 @@ class TagihanPasienController extends Controller
             'status'    => true,
             'message'   => 'Data tagihan ditemukan',
             'data'      => $dataQuery
-        ], 200);
+        ], 401);
     }
 
     public function storeResponseFlag(Request $request)
@@ -132,13 +134,6 @@ class TagihanPasienController extends Controller
         $validator = Validator::make($request->all(), $rules);
         $dataQuery = $this->getTagihanPasien($request->nokuitansi);
 
-        if ($dataQuery == null) {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Data tagihan tidak ditemukan',
-            ], 401);
-        }
-
         if ($validator->fails()) {
             return response()->json([
                 'status'    => false,
@@ -147,15 +142,24 @@ class TagihanPasienController extends Controller
             ], 401);
         }
 
-        $queryLogPayments = LogPayment::select('id', 'nokuitansi', 'status_payment')
-                        ->where('nokuitansi', $request->nokuitansi)
-                        ->first();
-
-        if ($queryLogPayments->status_payment == 1) {
+        if ($dataQuery == null) {
             return response()->json([
                 'status'    => false,
-                'message'   => 'Process flag payment is failed, payment status in full',
+                'message'   => 'Data tagihan tidak ditemukan',
             ], 401);
+        }
+
+        $queryLogPayments = LogPayment::select('id', 'nokuitansi', 'status_payment')
+            ->where('nokuitansi', $request->nokuitansi)
+            ->first();
+
+        if ($queryLogPayments != null) {
+            if ($queryLogPayments->status_payment == 1) {
+                return response()->json([
+                    'status'    => false,
+                    'message'   => 'Process flag payment is failed, payment status in full',
+                ], 401);
+            }
         }
 
         if ($dataQuery[0]->nopembayaran != $request->nopembayaran) {
@@ -276,10 +280,18 @@ class TagihanPasienController extends Controller
         $validator = Validator::make($request->all(), $rules);
         $dataQuery = $this->getTagihanPasien($request->nokuitansi);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Process reversal is failed',
+                'data'      => $validator->errors()
+            ], 401);
+        }
+
         if ($dataQuery == null) {
             return response()->json([
                 'status'    => false,
-                'message'   => 'Data tagihan tidak ditemukan',
+                'message'   => 'Data reversal tidak ditemukan',
             ], 401);
         }
 
@@ -365,14 +377,6 @@ class TagihanPasienController extends Controller
             return response()->json([
                 'status'    => false,
                 'message'   => 'Payment flag status unrecognized',
-            ], 401);
-        }
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Process reversal is failed',
-                'data'      => $validator->errors()
             ], 401);
         }
 
