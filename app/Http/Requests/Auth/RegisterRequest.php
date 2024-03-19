@@ -23,11 +23,12 @@ class RegisterRequest extends FormRequest
     {
         return [
             'company'       => 'required',
-            'project_name'  => 'required',
+            'project_id'    => 'required',
             'name'          => 'required',
             'email'         => 'required|email|max:255|unique:users',
             'no_hp'         => 'required|min:10|unique:users',
             'password'      => 'required|min:8|confirmed',
+            'terms_and_conditions'  => 'required'
         ];
     }
 }

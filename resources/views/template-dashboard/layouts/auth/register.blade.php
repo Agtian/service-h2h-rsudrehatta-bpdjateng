@@ -53,8 +53,13 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <input type="text" name="project_name" class="form-control @error('project_name') is-invalid @enderror" value="{{ old('project_name') }}" placeholder="Project name" aria-label="Project name">
-                                    @error('project_name')
+                                    <select name="project_id" class="form-control @error('project_id') is-invalid @enderror">
+                                        <option value="">-- Pilih Project --</option>
+                                        @foreach ($resultProjects as $item)
+                                            <option value="{{ $item->id }}">{{ $item->project_name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('project_id')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -96,10 +101,15 @@
                                     <input type="password" name="password_confirmation" class="form-control" placeholder="Retype password" aria-label="Password">
                                 </div>
                                 <div class="form-check form-check-info text-start">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                    <input class="form-check-input @error('terms_and_conditions') is-invalid @enderror" type="checkbox" value="" name="terms_and_conditions" id="flexCheckDefault" checked>
                                     <label class="form-check-label" for="flexCheckDefault">
                                         I agree the <a href="javascript:;" class="text-dark font-weight-bolder">Terms and Conditions</a>
                                     </label>
+                                    @error('terms_and_conditions')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign up</button>

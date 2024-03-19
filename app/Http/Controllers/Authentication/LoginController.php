@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\ApiKey;
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,9 @@ class LoginController extends Controller
     public function register()
     {
         // return view('auth.form-register');
-        return view('template-dashboard.layouts.auth.register');
+        return view('template-dashboard.layouts.auth.register', [
+            'resultProjects'    => Project::all()
+        ]);
     }
 
     public function doLogin(LoginRequest $request)
@@ -60,10 +63,13 @@ class LoginController extends Controller
             'password'          => Hash::make($request->validated('password')),
         ]);
 
+        $getProject = Project::find($request->project_id);
+
         ApiKey::create([
             'user_id'       => $users['id'],
             'company_name'  => $request->company,
-            'project_name'  => $request->project_name,
+            'project_id'    => $request->project_id,
+            'project_name'  => $getProject->project_name,
             'key'           => md5(uniqid() . rand(1000000, 9999999)),
         ]);
 
