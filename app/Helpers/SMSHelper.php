@@ -70,4 +70,26 @@ class SMSHelper
         $difference     = date_diff($waktu_awal, $waktu_akhir);
         return $difference->days;
     }
+
+    public static function arrQuantityRequestAPIUsers($apiKeyId)
+    {
+        $query = DB::select("SELECT MONTHNAME(created_at) as bulan, COUNT(id) AS used_quantity, api_key_id
+                    FROM api_event_histories
+                    WHERE YEAR(created_at) = YEAR(CURDATE())
+                        AND api_key_id = $apiKeyId
+                    GROUP BY api_key_id, MONTHNAME(created_at)");
+
+        $index = 0;
+        $usedQuantityArr = [];
+        foreach ($query as $item) {
+            array_push($usedQuantityArr, $item->used_quantity);
+            $index++;
+        }
+
+        // foreach ($usedQuantityArr as $x => $y) {
+        //     echo $y . ',';
+        // }
+
+        return $usedQuantityArr;
+    }
 }

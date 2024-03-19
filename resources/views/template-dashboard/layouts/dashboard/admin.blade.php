@@ -10,7 +10,7 @@
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">Get bill data</p>
                                 <h5 class="font-weight-bolder">
-                                    $53,000
+                                    {{ $countBillData }}
                                 </h5>
                                 <p class="mb-0">
                                     <span class="text-success text-sm font-weight-bolder"></span>
@@ -35,7 +35,7 @@
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">Payment completed</p>
                                 <h5 class="font-weight-bolder">
-                                    2,300
+                                    {{ $countPaymentCompleted }}
                                 </h5>
                                 <p class="mb-0">
                                     <span class="text-success text-sm font-weight-bolder">+3%</span>
@@ -60,7 +60,7 @@
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">RESPONSE CONNECTED</p>
                                 <h5 class="font-weight-bolder">
-                                    +3,462
+                                    {{ $countResponseConnected }}
                                 </h5>
                                 <p class="mb-0">
                                     <span class="text-danger text-sm font-weight-bolder"></span>
@@ -85,7 +85,7 @@
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">RESPONSE CONNECTION FAILED</p>
                                 <h5 class="font-weight-bolder">
-                                    $103,430
+                                    {{ $countResponseConnectionFailed }}
                                 </h5>
                                 <p class="mb-0">
                                     <span class="text-success text-sm font-weight-bolder"></span>this year {{ date('Y') }}
@@ -106,10 +106,10 @@
         <div class="col-lg-12 mb-lg-0 mb-4">
             <div class="card z-index-2 h-100">
                 <div class="card-header pb-0 pt-3 bg-transparent">
-                    <h6 class="text-capitalize">Sales overview</h6>
+                    <h6 class="text-capitalize">Quantity Request API</h6>
                     <p class="text-sm mb-0">
                         <i class="fa fa-arrow-up text-success"></i>
-                        <span class="font-weight-bold">4% more</span> in 2021
+                        <span class="font-weight-bold">{{ $getCountHistoryApiAll }} Count Request</span> in {{ date('Y') }}
                     </p>
                 </div>
                 <div class="card-body p-3">
@@ -119,12 +119,28 @@
                 </div>
             </div>
         </div>
+        {{-- <div class="col-lg-12 mb-lg-0 mt-4 mb-4">
+            <div class="card z-index-2 h-100">
+                <div class="card-header pb-0 pt-3 bg-transparent">
+                    <h6 class="text-capitalize">Quantity Request API Users</h6>
+                    <p class="text-sm mb-0">
+                        <i class="fa fa-arrow-up text-success"></i>
+                        <span class="font-weight-bold">{{ $getCountHistoryApiAll }} Count Request</span> in {{ date('Y') }}
+                    </p>
+                </div>
+                <div class="card-body p-3">
+                    <div class="chart">
+                        <canvas id="line-chart" class="chart-canvas" height="300px"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
         <div class="row mt-4">
             <div class="col-lg-7 mb-lg-0 mb-4">
                 <div class="card ">
                 <div class="card-header pb-0 p-3">
                     <div class="d-flex justify-content-between">
-                        <h6 class="mb-2">Sales by Country</h6>
+                        <h6 class="mb-2">Quantity Request API Users</h6>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -158,99 +174,6 @@
                                     <div class="col text-center">
                                         <p class="text-xs font-weight-bold mb-0">Bounce:</p>
                                         <h6 class="text-sm mb-0">29.9%</h6>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="w-30">
-                                    <div class="d-flex px-2 py-1 align-items-center">
-                                        <div>
-                                            <img src="{{ asset('asset/img/icons/flags/DE.png') }}" alt="Country flag">
-                                        </div>
-                                        <div class="ms-4">
-                                            <p class="text-xs font-weight-bold mb-0">Country:</p>
-                                            <h6 class="text-sm mb-0">Germany</h6>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">Sales:</p>
-                                        <h6 class="text-sm mb-0">3.900</h6>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">Value:</p>
-                                        <h6 class="text-sm mb-0">$440,000</h6>
-                                    </div>
-                                </td>
-                                <td class="align-middle text-sm">
-                                    <div class="col text-center">
-                                        <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                                        <h6 class="text-sm mb-0">40.22%</h6>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="w-30">
-                                    <div class="d-flex px-2 py-1 align-items-center">
-                                        <div>
-                                            <img src="{{ asset('asset/img/icons/flags/GB.png') }}" alt="Country flag">
-                                        </div>
-                                        <div class="ms-4">
-                                            <p class="text-xs font-weight-bold mb-0">Country:</p>
-                                            <h6 class="text-sm mb-0">Great Britain</h6>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">Sales:</p>
-                                        <h6 class="text-sm mb-0">1.400</h6>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">Value:</p>
-                                        <h6 class="text-sm mb-0">$190,700</h6>
-                                    </div>
-                                </td>
-                                <td class="align-middle text-sm">
-                                    <div class="col text-center">
-                                        <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                                        <h6 class="text-sm mb-0">23.44%</h6>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="w-30">
-                                    <div class="d-flex px-2 py-1 align-items-center">
-                                        <div>
-                                            <img src="{{ asset('asset/img/icons/flags/BR.png') }}" alt="Country flag">
-                                        </div>
-                                        <div class="ms-4">
-                                            <p class="text-xs font-weight-bold mb-0">Country:</p>
-                                            <h6 class="text-sm mb-0">Brasil</h6>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">Sales:</p>
-                                        <h6 class="text-sm mb-0">562</h6>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">Value:</p>
-                                        <h6 class="text-sm mb-0">$143,960</h6>
-                                    </div>
-                                </td>
-                                <td class="align-middle text-sm">
-                                    <div class="col text-center">
-                                        <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                                        <h6 class="text-sm mb-0">32.14%</h6>
                                     </div>
                                 </td>
                             </tr>
@@ -327,6 +250,6 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 @endsection
