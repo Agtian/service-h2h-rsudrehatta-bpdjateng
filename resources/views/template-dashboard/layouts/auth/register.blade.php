@@ -101,8 +101,8 @@
                                     <input type="password" name="password_confirmation" class="form-control" placeholder="Retype password" aria-label="Password">
                                 </div>
                                 <div class="form-check form-check-info text-start">
-                                    <input class="form-check-input @error('terms_and_conditions') is-invalid @enderror" type="checkbox" value="" name="terms_and_conditions" id="flexCheckDefault" checked>
-                                    <label class="form-check-label" for="flexCheckDefault">
+                                    <input class="form-check-input @error('terms_and_conditions') is-invalid @enderror" type="checkbox" value="" name="terms_and_conditions" id="terms_and_conditions" checked>
+                                    <label class="form-check-label" for="terms_and_conditions">
                                         I agree the <a href="javascript:;" class="text-dark font-weight-bolder">Terms and Conditions</a>
                                     </label>
                                     @error('terms_and_conditions')

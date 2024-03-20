@@ -32,6 +32,7 @@ class UserDashboardController extends Controller
             'countResponseConnectionFailed' => LogPayment::where('api_key_id', $apiKey->id)->whereYear('created_at', date('Y'))->where('status_reversal', 0)->count(),
             'getHistoryApiAll'              => $getHistoryApiAll,
             'getCountHistoryApiAll'         => ApiEventHistories::where('api_key_id', $apiKey->id)->whereYear('created_at', date('Y'))->count(),
+            'detailApiKey'                  => $apiKey,
         ]);
     }
 }

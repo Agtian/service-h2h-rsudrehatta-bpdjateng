@@ -84,6 +84,8 @@ class TagihanPasienController extends Controller
                                 WHERE cast(tglpembayaran AS DATE) = current_date
                             ORDER BY tglpembayaran  DESC");
 
+        // dd($dataQuery);
+
 
         if ($dataQuery == null) {
             return response()->json([
@@ -91,6 +93,12 @@ class TagihanPasienController extends Controller
                 'message'   => 'Data tagihan tidak ditemukan',
             ], 401);
         }
+
+        return response()->json([
+            'status'    => false,
+            'message'   => 'Data tagihan ditemukan',
+            'data'      => $dataQuery
+        ], 200);
     }
 
     public function patientBillById(Request $request)

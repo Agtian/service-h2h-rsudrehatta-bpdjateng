@@ -44,7 +44,7 @@
                         </div>
                         <div class="col-4 text-end">
                             <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
-                                <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                                <i class="ni ni-diamond text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                         </div>
                         <div class="col-4 text-end">
                             <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
-                                <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
+                                <i class="ni ni-like-2 text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                         </div>
                         <div class="col-4 text-end">
                             <div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
-                                <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
+                                <i class="ni ni-sound-wave text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>

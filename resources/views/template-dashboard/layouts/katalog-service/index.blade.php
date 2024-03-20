@@ -26,7 +26,8 @@
                                 <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-200 border-radius-lg">
                                     <div class="d-flex flex-column">
                                         <span class="mb-2 text-xs">Key : <span class="text-dark font-weight-bold ms-sm-2">api_key</span></span>
-                                        <span class="mb-2 text-xs">Value : <span class="text-dark ms-sm-2 font-weight-bold">apikey123</span></span>
+                                        <span class="mb-2 text-xs">Value : <span class="text-dark ms-sm-2 font-weight-bold">
+                                            <a class="btn btn-xs bg-gradient-faded-info" href="{{ url('home/api-key') }}">Lihat API Key</a></span></span>
                                         <span class="text-xs">Add To : <span class="text-dark ms-sm-2 font-weight-bold">Header</span></span>
                                     </div>
                                 </li>
@@ -54,7 +55,7 @@
                                 <p>Request</p>
                                 <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-200 border-radius-lg">
                                     <pre>
-    <code>{Base URL}/api/patient-bill?nomormedis=123456</code>
+    <code>{Base URL}/api/payment-patient-bill?nomormedis=123456</code>
                                     </pre>
                                 </li>
                             </div>

@@ -26,9 +26,9 @@ class RegisterRequest extends FormRequest
             'project_id'    => 'required',
             'name'          => 'required',
             'email'         => 'required|email|max:255|unique:users',
-            'no_hp'         => 'required|min:10|unique:users',
+            'no_hp'         => 'required|min:10',
             'password'      => 'required|min:8|confirmed',
-            'terms_and_conditions'  => 'required'
+            'terms_and_conditions'  => 'nullable'
         ];
     }
 }
