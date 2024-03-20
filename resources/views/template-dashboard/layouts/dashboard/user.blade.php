@@ -38,7 +38,6 @@
                                     {{ $countPaymentCompleted }}
                                 </h5>
                                 <p class="mb-0">
-                                    <span class="text-success text-sm font-weight-bolder">+3%</span>
                                     this year {{ date('Y') }}
                                 </p>
                             </div>
