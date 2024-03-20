@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\SMSHelper;
 use App\Http\Controllers\Controller;
+use App\Models\ApiKey;
 use App\Models\LogPayment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -123,7 +124,7 @@ class TagihanPasienController extends Controller
             'status'    => true,
             'message'   => 'Data tagihan ditemukan',
             'data'      => $dataQuery
-        ], 401);
+        ], 200);
     }
 
     public function storeResponseFlag(Request $request)
@@ -247,7 +248,10 @@ class TagihanPasienController extends Controller
             ], 401);
         }
 
+        $apiKeys = ApiKey::where('key', $request->header('api_key'))->first();
+
         $dataPayment = new LogPayment();
+        $dataPayment->api_key_id            = $apiKeys->id;
         $dataPayment->nopembayaran          = $request->nopembayaran;
         $dataPayment->nokuitansi            = $request->nokuitansi;
         $dataPayment->nobuktibayar          = $request->nobuktibayar;
@@ -291,7 +295,7 @@ class TagihanPasienController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'status'    => false,
-                'message'   => 'Process reversal is failed',
+                'message'   => 'Process flag reversal is failed',
                 'data'      => $validator->errors()
             ], 401);
         }
@@ -306,7 +310,7 @@ class TagihanPasienController extends Controller
         if ($dataQuery[0]->nopembayaran != $request->nopembayaran) {
             return response()->json([
                 'status'    => false,
-                'message'   => 'Process flag payment is failed',
+                'message'   => 'Process flag reversal is failed',
                 'data'      => [
                     'nopembayaran' => ['Nomor pembayaran tidak sesuai']
                 ]
@@ -316,7 +320,7 @@ class TagihanPasienController extends Controller
         if ($dataQuery[0]->nobuktibayar != $request->nobuktibayar) {
             return response()->json([
                 'status'    => false,
-                'message'   => 'Process flag payment is failed',
+                'message'   => 'Process flag reversal is failed',
                 'data'      => [
                     'nobuktibayar' => ['Nomor bukti bayar tidak sesuai']
                 ]
@@ -326,7 +330,7 @@ class TagihanPasienController extends Controller
         if ($dataQuery[0]->totalbiayapelayanan != $request->totalbiayapelayanan) {
             return response()->json([
                 'status'    => false,
-                'message'   => 'Process flag payment is failed',
+                'message'   => 'Process flag reversal is failed',
                 'data'      => [
                     'totalbiayapelayanan' => ['Total biaya tidak sesuai']
                 ]
@@ -336,7 +340,7 @@ class TagihanPasienController extends Controller
         if ($dataQuery[0]->nama_pasien != $request->nama_pasien) {
             return response()->json([
                 'status'    => false,
-                'message'   => 'Process flag payment is failed',
+                'message'   => 'Process flag reversal is failed',
                 'data'      => [
                     'nama_pasien' => ['Nama pasien tidak tidak sesuai']
                 ]
@@ -346,7 +350,7 @@ class TagihanPasienController extends Controller
         if ($dataQuery[0]->no_rekam_medik != $request->no_rekam_medik) {
             return response()->json([
                 'status'    => false,
-                'message'   => 'Process flag payment is failed',
+                'message'   => 'Process flag reversal is failed',
                 'data'      => [
                     'no_rekam_medik' => ['Nomor rekam medis tidak tidak sesuai']
                 ]
@@ -356,7 +360,7 @@ class TagihanPasienController extends Controller
         if ($dataQuery[0]->tanggal_lahir != $request->tanggal_lahir) {
             return response()->json([
                 'status'    => false,
-                'message'   => 'Process flag payment is failed',
+                'message'   => 'Process flag reversal is failed',
                 'data'      => [
                     'tanggal_lahir' => ['Tanggal lahir tidak tidak sesuai']
                 ]
@@ -366,7 +370,7 @@ class TagihanPasienController extends Controller
         if ($dataQuery[0]->tgl_pendaftaran != $request->tgl_pendaftaran) {
             return response()->json([
                 'status'    => false,
-                'message'   => 'Process flag payment is failed',
+                'message'   => 'Process flag reversal is failed',
                 'data'      => [
                     'tgl_pendaftaran' => ['Tanggal pendaftaran tidak tidak sesuai']
                 ]
@@ -376,15 +380,8 @@ class TagihanPasienController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'status'    => false,
-                'message'   => 'Process flag payment is failed',
+                'message'   => 'Process flag reversal is failed',
                 'data'      => $validator->errors()
-            ], 401);
-        }
-
-        if ($request->status_payment > 2) {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Payment flag status unrecognized',
             ], 401);
         }
 
@@ -395,7 +392,10 @@ class TagihanPasienController extends Controller
             ], 401);
         }
 
+        $apiKeys = ApiKey::where('key', $request->header('api_key'))->first();
+
         $dataPayment = new LogPayment();
+        $dataPayment->api_key_id            = $apiKeys->id;
         $dataPayment->nopembayaran          = $request->nopembayaran;
         $dataPayment->nokuitansi            = $request->nokuitansi;
         $dataPayment->nobuktibayar          = $request->nobuktibayar;

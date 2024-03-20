@@ -5,8 +5,8 @@
     <div class="col-md-12 mt-4">
         <div class="card">
             <div class="card-header pb-0 px-3">
-                <button class="btn bg-gradient-primary" type="button" data-bs-toggle="collapse" data-bs-target="#one" aria-expanded="false">
-                    <h5 class="mb-0 font-weight-bold text-white">Base URL Web Service Development</h5>
+                <button class="btn btn-sm bg-gradient-primary" type="button" data-bs-toggle="collapse" data-bs-target="#one" aria-expanded="false">
+                    <h6 class="mb-0 font-weight-bold text-white">Base URL Web Service Development</h6>
                 </button>
             </div>
             <div class="collapse" id="one">
@@ -42,8 +42,8 @@
     <div class="col-md-12 mt-4">
         <div class="card">
             <div class="card-header pb-0 px-3">
-                <button class="btn bg-gradient-primary" type="button" data-bs-toggle="collapse" data-bs-target="#two" aria-expanded="false">
-                    <h5 class="mb-0 font-weight-bold text-white">Inquiry Data Tagihan</h5>
+                <button class="btn btn-sm bg-gradient-primary" type="button" data-bs-toggle="collapse" data-bs-target="#two" aria-expanded="false">
+                    <h6 class="mb-0 font-weight-bold text-white">Inquiry Data Tagihan</h6>
                 </button>
             </div>
             <div class="collapse" id="two">
@@ -77,8 +77,8 @@
     <div class="col-md-12 mt-4">
         <div class="card">
             <div class="card-header pb-0 px-3">
-                <button class="btn bg-gradient-primary" type="button" data-bs-toggle="collapse" data-bs-target="#three" aria-expanded="false">
-                    <h5 class="mb-0 font-weight-bold text-white">Flag Payment</h5>
+                <button class="btn btn-sm bg-gradient-primary" type="button" data-bs-toggle="collapse" data-bs-target="#three" aria-expanded="false">
+                    <h6 class="mb-0 font-weight-bold text-white">Flag Payment</h6>
                 </button>
             </div>
             <div class="collapse" id="three">
@@ -159,8 +159,8 @@
     <div class="col-md-12 mt-4">
         <div class="card">
             <div class="card-header pb-0 px-3">
-                <button class="btn bg-gradient-primary" type="button" data-bs-toggle="collapse" data-bs-target="#four" aria-expanded="false">
-                    <h5 class="mb-0 font-weight-bold text-white">Flag Reversal</h5>
+                <button class="btn btn-sm bg-gradient-primary" type="button" data-bs-toggle="collapse" data-bs-target="#four" aria-expanded="false">
+                    <h6 class="mb-0 font-weight-bold text-white">Flag Reversal</h6>
                 </button>
             </div>
             <div class="collapse" id="four">
