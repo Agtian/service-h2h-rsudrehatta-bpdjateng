@@ -19,28 +19,18 @@ class ProfileController extends Controller
         return view("template-dashboard.layouts.profile.index", [
             'detailUser'            => User::find(Auth::user()->id),
             'detailApiKey'          => ApiKey::where('user_id', Auth::user()->id)->first(),
-            'formInputKodeActivate' => $users->level_user == 3 ? true : false,
+            'formInputKodeActivate' => $users->level_user == 4 ? true : false,
             'formModalActivate'     => $users->level_user != 0 && $users->level_user != 5 ? true : false,
         ]);
     }
 
     public function activateAccount()
     {
-        $users          = User::find(Auth::user()->id);
-        $kode_activate  = SMSHelper::randomString(6);
-
         User::find(Auth::user()->id)->update([
             'level_user'        => 3,
         ]);
 
-        LogActivateSMS::create([
-            'user_id'           => Auth::user()->id,
-            'kode_activation'   => $kode_activate,
-            'status'            => 1
-        ]);
-
-        // SMSHelper::shortsms($users->no_hp, "Kode aktivasi REHATTA SERVICE : $kode_activate. Hanya berlaku 10 menit. by RSUD dr Rehatta");
-        return redirect(request()->segment(1))->with(['success' => 'Kode verifikasi kami kirim melalu SMS ke nomor anda.']);
+        return redirect(request()->segment(1))->with(['success' => 'Silahkan tunggu, admin akan memproses akun anda dan kode verifikasi akan kami kirim melalu SMS ke nomor anda.']);
     }
 
     public function validatedSuccess($kode_activation)

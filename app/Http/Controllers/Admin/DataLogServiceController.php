@@ -11,7 +11,7 @@ class DataLogServiceController extends Controller
     public function index()
     {
         return view('template-dashboard.layouts.data-log-service.index', [
-            'resultLogService'  => ApiEventHistories::paginate(10)
+            'resultLogService'  => ApiEventHistories::orderBy('id', 'DESC')->paginate(10)
         ]);
     }
 }

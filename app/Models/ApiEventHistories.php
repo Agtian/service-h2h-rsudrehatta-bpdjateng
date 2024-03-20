@@ -12,4 +12,9 @@ class ApiEventHistories extends Model
     protected $guarded = [];
 
     protected $table = 'api_event_histories';
+
+    public function getApiKey()
+    {
+        return $this->belongsTo(ApiKey::class, 'api_key_id', 'id');
+    }
 }

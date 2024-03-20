@@ -86,6 +86,7 @@ Route::prefix('home')->middleware(['auth', 'checkrole:1'])->group(function () {
 
 Route::prefix('dashboard')->middleware(['auth', 'checkrole:2'])->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index']);
+    Route::get('activating-user/{id}/user', [AdminDashboardController::class, 'activatingUser']);
     Route::get('/katalog-service', [KatalogServiceController::class, 'index']);
     Route::get('/data-log-service', [DataLogServiceController::class, 'index']);
     Route::get('/data-api-key', [DataApiKeyController::class, 'index']);

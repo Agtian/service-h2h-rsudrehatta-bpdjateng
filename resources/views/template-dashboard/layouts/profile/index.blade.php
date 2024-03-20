@@ -1,24 +1,7 @@
 @extends('template-dashboard.main')
 
 @section('content')
-@if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show mx-4" role="alert">
-        <span class="alert-icon"><i class="ni ni-like-2"></i></span>
-        <span class="alert-text"><strong>Success!</strong> {{ session('success') }}</span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-@endif
-
-@if (session('warning'))
-    <div class="alert alert-warning alert-dismissible fade show mx-4" role="alert">
-        <span class="alert-text"><strong>Perhatian!</strong> {{ session('warning') }}</span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-@endif
+@include('template-dashboard.inc.alert')
 
 <div class="card shadow-lg mx-4">
     <div class="card-body p-3">
@@ -39,10 +22,24 @@
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
-                <a class="btn btn-outline-danger mb-0 px-0 py-1 d-flex align-items-center justify-content-center">
-                <i class="ni ni-notification-70"></i>
-                    <span class="ms-2">Account tidak aktif</span>
-                </a>
+                @if (Auth::user()->level_user == 0 || Auth::user()->level_user == 3 || Auth::user()->level_user == 4)
+                    <a class="btn btn-outline-danger mb-0 px-0 py-1 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-notification-70"></i><span class="ms-2">Account not active</span>
+                    </a>
+                @endif
+
+                @if (Auth::user()->level_user == 5)
+                    <a class="btn btn-outline-danger mb-0 px-0 py-1 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-notification-70"></i><span class="ms-2">Account is reject</span>
+                    </a>
+                @endif
+
+                @if (Auth::user()->level_user == 1 || Auth::user()->level_user == 2)
+
+                    <a class="btn btn-outline-primary mb-0 px-0 py-1 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-notification-70"></i><span class="ms-2">Account active</span>
+                    </a>
+                @endif
             </div>
         </div>
     </div>

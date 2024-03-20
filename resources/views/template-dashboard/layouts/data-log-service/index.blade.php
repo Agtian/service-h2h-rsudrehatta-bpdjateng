@@ -20,15 +20,15 @@
                         </thead>
                         <tbody>
                             @forelse ($resultLogService as $item)
-                                <tr class="{{ optional($item->getUser)->name == '' ? 'bg-gray-200' : '' }}">
+                                <tr class="{{ optional($item->getApiKey->getUser)->name == '' ? 'bg-gray-200' : '' }}">
                                     <td>
                                         <div class="d-flex px-2 py-1">
                                             <div>
                                                 <i class="avatar avatar-sm me-3 ni ni-single-02 text-success text-sm opacity-10"></i>
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">{{ optional($item->getUser)->name }}</h6>
-                                                <p class="text-xs text-secondary mb-0">{{ optional($item->getUser)->email }}</p>
+                                                <h6 class="mb-0 text-sm">{{ optional($item->getApiKey->getUser)->name }}</h6>
+                                                <p class="text-xs text-secondary mb-0">{{ optional($item->getApiKey->getUser)->email }}</p>
                                                 <p class="text-xs text-secondary mb-0">{{ $item->company_name }}<p>
                                             </div>
                                         </div>
