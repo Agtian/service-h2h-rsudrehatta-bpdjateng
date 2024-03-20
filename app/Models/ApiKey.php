@@ -11,6 +11,8 @@ class ApiKey extends Model
 
     protected $guarded = [];
 
+    protected $table = 'api_keys';
+
     public function getUser()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DataApiKeyController;
+use App\Http\Controllers\Admin\DataLogPaymentController;
 use App\Http\Controllers\Admin\DataLogServiceController;
 use App\Http\Controllers\Admin\DataUserController;
 use App\Http\Controllers\ApiEventHistoriesController;
@@ -89,6 +90,7 @@ Route::prefix('dashboard')->middleware(['auth', 'checkrole:2'])->group(function 
     Route::get('activating-user/{id}/user', [AdminDashboardController::class, 'activatingUser']);
     Route::get('/katalog-service', [KatalogServiceController::class, 'index']);
     Route::get('/data-log-service', [DataLogServiceController::class, 'index']);
+    Route::get('/data-log-payment', [DataLogPaymentController::class, 'index']);
     Route::get('/data-api-key', [DataApiKeyController::class, 'index']);
     Route::get('/data-user', [DataUserController::class, 'index']);
     Route::get('/profile', [ProfileController::class, 'index']);

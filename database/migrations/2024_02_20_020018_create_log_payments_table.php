@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('log_payments', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('api_key_id');
             $table->string('nopembayaran', 20);
             $table->string('nokuitansi', 20);
             $table->string('nobuktibayar', 20);
@@ -32,6 +33,8 @@ return new class extends Migration
             $table->string('reversal_response_status', 20)->nullable();
             $table->string('reversal_response_message', 100)->nullable();
             $table->timestamps();
+
+            $table->foreign('api_key_id')->references('id')->on('api_keys')->onDelete('cascade');
         });
     }
 
