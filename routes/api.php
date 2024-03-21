@@ -17,6 +17,8 @@ use App\Http\Controllers\AuthController;
 |
 */
 
+Route::get('get-patient-bills', [ApiTagihanPasienController::class, 'patientBills']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
