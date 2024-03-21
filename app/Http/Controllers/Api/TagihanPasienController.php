@@ -126,7 +126,7 @@ class TagihanPasienController extends Controller
         ], 200);
     }
 
-    public function patientBillById(Request $request)
+    public function getPatientBillById(Request $request)
     {
         $key        = $request->header('api_key');
         $dataQuery  = $this->getTagihanPasien($key, $request->nomormedis);
