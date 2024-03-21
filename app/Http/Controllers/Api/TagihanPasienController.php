@@ -12,9 +12,41 @@ use Illuminate\Support\Facades\Validator;
 
 class TagihanPasienController extends Controller
 {
-    public function getTagihanPasien($nomedis_or_notagihan)
+    public function getTagihanPasien($key, $nomedis_or_notagihan)
     {
-        $dataQueryByNoPembayaran = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
+        $apiKeys = ApiKey::where('key', $key)->first();
+        if ($apiKeys->status_key == 1) {
+            // Jika production menampilkan data hanya pembayaran kategori BPD Jateng
+            $dataQueryByNoPembayaran = DB::connection('pgsql')->select("SELECT jnspembayar_m.jnspembayar_nama, nopembayaran, concat(substring(nopembayaran, 3, 6),
+                substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, alamat_pasien,
+                jeniskelamin, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama, tgl_pendaftaran
+                FROM public.informasipasiensudahbayar_v
+                LEFT JOIN jenispembayaran_t on informasipasiensudahbayar_v.tandabuktibayar_id  = jenispembayaran_t.tandabuktibayar_id
+                LEFT JOIN jnspembayar_m on jenispembayaran_t.jnspembayar_id = jnspembayar_m.jnspembayar_id
+                WHERE jenispembayaran_t.jnspembayar_id = 11 -- BPD JATENG
+                    AND concat(substring(nopembayaran, 3, 6), substring(nopembayaran, 10, 3)) = '$nomedis_or_notagihan'
+                    AND cast(tglpembayaran AS DATE) = current_date
+                ORDER BY tglpembayaran  DESC");
+
+            if (count($dataQueryByNoPembayaran) === 0) {
+                $dataQueryByNoMedis = DB::connection('pgsql')->select("SELECT jnspembayar_m.jnspembayar_nama, nopembayaran, concat(substring(nopembayaran, 3, 6),
+                substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, alamat_pasien,
+                jeniskelamin, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama, tgl_pendaftaran
+                FROM public.informasipasiensudahbayar_v
+                LEFT JOIN jenispembayaran_t on informasipasiensudahbayar_v.tandabuktibayar_id  = jenispembayaran_t.tandabuktibayar_id
+                LEFT JOIN jnspembayar_m on jenispembayaran_t.jnspembayar_id = jnspembayar_m.jnspembayar_id
+                WHERE jenispembayaran_t.jnspembayar_id = 11 -- BPD JATENG
+                    AND cast(tglpembayaran AS DATE) = current_date
+                    AND no_rekam_medik = '$nomedis_or_notagihan'
+                ORDER BY tglpembayaran  DESC");
+
+                return $dataQueryByNoMedis;
+            } else {
+                return $dataQueryByNoPembayaran;
+            }
+        } else {
+            // Jika development
+            $dataQueryByNoPembayaran = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
             substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, alamat_pasien,
             jeniskelamin, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama, tgl_pendaftaran
             FROM public.informasipasiensudahbayar_v
@@ -22,8 +54,8 @@ class TagihanPasienController extends Controller
                 AND cast(tglpembayaran AS DATE) = current_date
             ORDER BY tglpembayaran  DESC");
 
-        if (count($dataQueryByNoPembayaran) === 0) {
-            $dataQueryByNoMedis = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
+            if (count($dataQueryByNoPembayaran) === 0) {
+                $dataQueryByNoMedis = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
                 substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, alamat_pasien,
                 jeniskelamin, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama, tgl_pendaftaran
                 FROM public.informasipasiensudahbayar_v
@@ -31,9 +63,10 @@ class TagihanPasienController extends Controller
                     and no_rekam_medik = '$nomedis_or_notagihan'
                 ORDER BY tglpembayaran  DESC");
 
-            return $dataQueryByNoMedis;
-        } else {
-            return $dataQueryByNoPembayaran;
+                return $dataQueryByNoMedis;
+            } else {
+                return $dataQueryByNoPembayaran;
+            }
         }
     }
 
@@ -76,17 +109,24 @@ class TagihanPasienController extends Controller
         return $response;
     }
 
-    public function patientBill()
+    public function patientBill(Request $request)
     {
+        $apiKeys = ApiKey::where('key', $request->header('api_key'))->first();
+        if ($apiKeys->status_key == 1) {
+            // Jika production maka tidak boleh akses
+            return response()->json([
+                'status'    => false,
+                'message'   => 'API Key Production akses dibatasi.',
+            ], 401);
+        }
+
         $dataQuery = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
                             substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, alamat_pasien,
                             jeniskelamin, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama, tgl_pendaftaran
                             FROM public.informasipasiensudahbayar_v
                                 WHERE cast(tglpembayaran AS DATE) = current_date
-                            ORDER BY tglpembayaran  DESC");
-
-        // dd($dataQuery);
-
+                            ORDER BY tglpembayaran  DESC
+                            LIMIT 2");
 
         if ($dataQuery == null) {
             return response()->json([
@@ -104,7 +144,8 @@ class TagihanPasienController extends Controller
 
     public function patientBillById(Request $request)
     {
-        $dataQuery = $this->getTagihanPasien($request->nomormedis);
+        $key        = $request->header('api_key');
+        $dataQuery  = $this->getTagihanPasien($key, $request->nomormedis);
 
         if ($request->nomormedis == null) {
             return response()->json([
