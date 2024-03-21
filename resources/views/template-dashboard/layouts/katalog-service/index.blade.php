@@ -43,6 +43,35 @@
         <div class="card">
             <div class="card-header pb-0 px-3">
                 <button class="btn btn-sm bg-gradient-primary" type="button" data-bs-toggle="collapse" data-bs-target="#two" aria-expanded="false">
+                    <h6 class="mb-0 font-weight-bold text-white">Get all tagihan</h6>
+                </button>
+            </div>
+            <div class="collapse" id="two">
+                <div class="card-body pt-4 p-3">
+                    <ul class="list-group">
+                        <p>Service ini hanya dapat digunakan distatus API Key Development.</p>
+                        <p>Method : <b>GET</b></p>
+                        <p>URL : <b>{Base URL}/api/patient-bills</b></p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>Response</p>
+                                <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-200 border-radius-lg">
+                                    <pre>
+    <code>{{ $responseGetAllTagihan }}</code>
+                                    </pre>
+                                </li>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 mt-4">
+        <div class="card">
+            <div class="card-header pb-0 px-3">
+                <button class="btn btn-sm bg-gradient-primary" type="button" data-bs-toggle="collapse" data-bs-target="#two" aria-expanded="false">
                     <h6 class="mb-0 font-weight-bold text-white">Inquiry Data Tagihan</h6>
                 </button>
             </div>
@@ -125,7 +154,7 @@
                                     </li>
                                 </div>
                                 <div class="col-md-12">
-                                    <p>Response payment status in full</p>
+                                    <p>Response payment status has been paid</p>
                                     <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-200 border-radius-lg">
                                         <pre>
             <code>{{ $responseFlagStatusFull }}</code>

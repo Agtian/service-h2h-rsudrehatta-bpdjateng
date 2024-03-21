@@ -135,7 +135,7 @@
                 <div class="card-body pt-0">
                     <div class="text-center mt-4">
                         <div>
-                            <i class="ni education_hat mr-2"></i>Aktivasi sekarang dan anda akan mendapatkan kode aktivasi melalui SMS
+                            <i class="ni education_hat mr-2"></i>Aktivasi sekarang dan tunggu beberapa saat admin akan mengecek akun anda kemudian mengirimkan kode aktivasi melalui SMS
                             @if ($formInputKodeActivate == true)
                                 <form action="{{ url(request()->segment(1).'/verification-code') }}" method="POST">
                                     @csrf
@@ -183,35 +183,81 @@
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" id="modalInfo" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Information</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <img src="{{ asset('asset/img/carousel-3.jpg') }}" alt="Image placeholder" class="card-img-top">
+                            <div class="row justify-content-center">
+                                <div class="col-4 col-lg-4 order-lg-2">
+                                <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
+                                    <a href="javascript:;">
+                                        <img src="{{ asset('asset/img/user-286.png')}}" class="rounded-circle img-fluid border border-2 border-white">
+                                    </a>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="card-header text-center border-0 pt-0 pt-lg-2 pb-4 pb-lg-3">
+                                @if ($formModalActivate == false)
+                                    <button type="button" class="btn bg-gradient-danger" data-bs-toggle="modal" data-bs-target="#modalActivation">
+                                        Activate Account Now
+                                    </button>
+                                @endif
+                            </div>
+                            <div class="text-center mt-4">
+                                <i class="ni education_hat mr-2"></i>Aktivasi sekarang dan tunggu beberapa saat admin akan mengecek akun anda kemudian mengirimkan kode aktivasi melalui SMS
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 @endsection
 
 @push('script')
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
 <script>
+    @if (Auth::user()->level_user == 0)
+        $(document).ready(function(){
+            $('#modalInfo').modal('show');
+        });
+    @endif
+
 
     window.addEventListener('swal:modal', event => {
         swal({
-          title: event.detail.message,
-          text: event.detail.text,
-          icon: event.detail.type,
+            title: event.detail.message,
+            text: event.detail.text,
+            icon: event.detail.type,
         });
     });
 
     window.addEventListener('swal:confirm', event => {
         swal({
-          title: event.detail.message,
-          text: event.detail.text,
-          icon: event.detail.type,
-          buttons: true,
-          dangerMode: true,
+            title: event.detail.message,
+            text: event.detail.text,
+            icon: event.detail.type,
+            buttons: true,
+            dangerMode: true,
         })
         .then((willDelete) => {
-          if (willDelete) {
-            window.livewire.emit('remove');
-          }
+            if (willDelete) {
+                window.livewire.emit('remove');
+            }
         });
     });
-     </script>
+</script>
 @endpush

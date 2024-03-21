@@ -96,7 +96,7 @@ class TagihanPasienController extends Controller
         }
 
         return response()->json([
-            'status'    => false,
+            'status'    => true,
             'message'   => 'Data tagihan ditemukan',
             'data'      => $dataQuery
         ], 200);

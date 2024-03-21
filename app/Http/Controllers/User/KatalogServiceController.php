@@ -9,6 +9,41 @@ class KatalogServiceController extends Controller
 {
     public function index()
     {
+        $responseGetAllTagihan = '{
+            "status": true,
+            "message": "Data tagihan ditemukan",
+            "data": [
+                {
+                    "nopembayaran": "K-240321-001",
+                    "nokuitansi": "240321001",
+                    "nobuktibayar": "5204/BKM/III/2024",
+                    "totalbiayapelayanan": "115201.18",
+                    "nama_pasien": "Iwabe Yuino",
+                    "no_rekam_medik": "123550",
+                    "alamat_pasien": "PAYAK",
+                    "jeniskelamin": "LAKI-LAKI",
+                    "tanggal_lahir": "1995-01-08",
+                    "usia": "29",
+                    "ruangan_nama": "IGD KELET",
+                    "tgl_pendaftaran": "2024-03-21 00:13:08"
+                },
+                {
+                    "nopembayaran": "K-240321-002",
+                    "nokuitansi": "240321002",
+                    "nobuktibayar": "5205/BKM/III/2024",
+                    "totalbiayapelayanan": "500258.02",
+                    "nama_pasien": "Shikamaru",
+                    "no_rekam_medik": "633005",
+                    "alamat_pasien": "Konoha",
+                    "jeniskelamin": "LAKI-LAKI",
+                    "tanggal_lahir": "1993-06-08",
+                    "usia": "29",
+                    "ruangan_nama": "Poli Klinik Gigi",
+                    "tgl_pendaftaran": "2024-03-21 09:13:08"
+                }
+            ]
+        }';
+
         $responseGetDataTagihan = '{
             "status": true,
             "message": "Data tagihan ditemukan",
@@ -134,6 +169,7 @@ class KatalogServiceController extends Controller
         }';
 
         return view('template-dashboard.layouts.katalog-service.index', [
+            'responseGetAllTagihan'                     => $responseGetAllTagihan,
             'responseGetDataTagihan'                    => $responseGetDataTagihan,
             'responseGetTagihanNotInclucdeParameter'    => $responseGetTagihanNotInclucdeParameter,
             'responseGetTagihanTidakDitemukan'          => $responseGetTagihanTidakDitemukan,
