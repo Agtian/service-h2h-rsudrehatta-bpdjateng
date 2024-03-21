@@ -136,7 +136,7 @@
                     <div class="text-center mt-4">
                         <div>
                             <i class="ni education_hat mr-2"></i>Aktivasi sekarang dan tunggu beberapa saat admin akan mengecek akun anda kemudian mengirimkan kode aktivasi melalui SMS
-                            @if ($formInputKodeActivate == true)
+                            @if ($formInputKodeActivate == 3 || $formInputKodeActivate == 4)
                                 <form action="{{ url(request()->segment(1).'/verification-code') }}" method="POST">
                                     @csrf
                                     <div class="input-group mt-3">

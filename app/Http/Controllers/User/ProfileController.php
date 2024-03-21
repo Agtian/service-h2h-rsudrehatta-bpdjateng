@@ -19,7 +19,7 @@ class ProfileController extends Controller
         return view("template-dashboard.layouts.profile.index", [
             'detailUser'            => User::find(Auth::user()->id),
             'detailApiKey'          => ApiKey::where('user_id', Auth::user()->id)->first(),
-            'formInputKodeActivate' => $users->level_user == 4 ? true : false,
+            'formInputKodeActivate' => $users->level_user,
             'formModalActivate'     => $users->level_user != 0 && $users->level_user != 5 ? true : false,
         ]);
     }
