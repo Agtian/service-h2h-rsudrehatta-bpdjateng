@@ -126,6 +126,32 @@ class TagihanPasienController extends Controller
         ], 200);
     }
 
+    public function patientBillById(Request $request)
+    {
+        $key        = $request->header('api_key');
+        $dataQuery  = $this->getTagihanPasien($key, $request->nomormedis);
+
+        if ($request->nomormedis == null) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Parameter nomor medis tidak ditemukan',
+            ], 401);
+        }
+
+        if ($dataQuery == null) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Data tagihan tidak ditemukan',
+            ], 401);
+        }
+
+        return response()->json([
+            'status'    => true,
+            'message'   => 'Data tagihan ditemukan',
+            'data'      => $dataQuery
+        ], 200);
+    }
+
     public function patientBill(Request $request)
     {
         $apiKeys = ApiKey::where('key', $request->header('api_key'))->first();
