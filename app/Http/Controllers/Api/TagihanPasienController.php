@@ -560,7 +560,7 @@ class TagihanPasienController extends Controller
         ], 200);
     }
 
-    public function storeResponseReversal(Request $request)
+    public function storeResponseReversals(Request $request)
     {
         $rules = [
             'nopembayaran'          => 'required',
@@ -704,7 +704,7 @@ class TagihanPasienController extends Controller
         ], 200);
     }
 
-    public function storeResponseReversals(Request $request)
+    public function storeResponseReversal(Request $request)
     {
         $rules = [
             'nopembayaran'          => 'required',
