@@ -536,7 +536,7 @@ class TagihanPasienController extends Controller
         // $apiKeys = ApiKey::where('key', $request->header('api_key'))->first();
 
         $dataPayment = new LogPayment();
-        $dataPayment->api_key_id            = 1,// $apiKeys->id;
+        $dataPayment->api_key_id            = 1; // $apiKeys->id;
         $dataPayment->nopembayaran          = $request->nopembayaran;
         $dataPayment->nokuitansi            = $request->nokuitansi;
         $dataPayment->nobuktibayar          = $request->nobuktibayar;
@@ -680,7 +680,7 @@ class TagihanPasienController extends Controller
         // $apiKeys = ApiKey::where('key', $request->header('api_key'))->first();
 
         $dataPayment = new LogPayment();
-        $dataPayment->api_key_id            = 1,// $apiKeys->id;
+        $dataPayment->api_key_id            = 1; // $apiKeys->id;
         $dataPayment->nopembayaran          = $request->nopembayaran;
         $dataPayment->nokuitansi            = $request->nokuitansi;
         $dataPayment->nobuktibayar          = $request->nobuktibayar;
