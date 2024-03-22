@@ -68,11 +68,13 @@ class TagihanPasienController extends Controller
 
     public function getBiodataPasien($nomormedis)
     {
-        $query = DB::connection('pgsql')->select("SELECT alamat_pasien, jeniskelamin, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia
-                     FROM public.informasipasiensudahbayar_v
+        $query = DB::connection('pgsql')->select("SELECT alamat_pasien, jeniskelamin, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama
+                    FROM public.informasipasiensudahbayar_v
                     WHERE no_rekam_medik = '$nomormedis'
                         AND cast(tglpembayaran AS DATE) = current_date
                     ORDER BY tglpembayaran  DESC");
+
+        return $query;
     }
 
     public function detailStatusPayment($status_payment)
@@ -305,10 +307,10 @@ class TagihanPasienController extends Controller
         $dataPayment->nama_pasien           = $request->nama_pasien;
         $dataPayment->no_rekam_medik        = $request->no_rekam_medik;
         $dataPayment->tanggal_lahir         = $request->tanggal_lahir;
-        $dataPayment->alamat_pasien         = $getBiodata['alamat_pasien'];
-        $dataPayment->jeniskelamin          = $getBiodata['jeniskelamin'];
-        $dataPayment->usia                  = $getBiodata['usia'];
-        $dataPayment->ruangan_nama          = $getBiodata['ruangan_nama'];
+        $dataPayment->alamat_pasien         = $getBiodata[0]->alamat_pasien;
+        $dataPayment->jeniskelamin          = $getBiodata[0]->jeniskelamin;
+        $dataPayment->usia                  = $getBiodata[0]->usia;
+        $dataPayment->ruangan_nama          = $getBiodata[0]->ruangan_nama;
         $dataPayment->tgl_pendaftaran       = $request->tgl_pendaftaran;
         $dataPayment->status_payment        = $request->status_payment;
         $dataPayment->payment_response_status   = $this->detailStatusPayment($request->status_payment)['status'];
