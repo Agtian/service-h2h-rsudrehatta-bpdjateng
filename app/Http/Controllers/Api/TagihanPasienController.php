@@ -241,7 +241,7 @@ class TagihanPasienController extends Controller
     public function patientBillById(Request $request)
     {
         $key        = $request->header('api_key');
-        $dataQuery  = $this->getTagihanPasien($key, $request->nomormedis);
+        $dataQuery  = $this->getTagihanPasienSPLP($key, $request->nomormedis);
 
         if ($request->nomormedis == null) {
             return response()->json([
@@ -426,7 +426,7 @@ class TagihanPasienController extends Controller
             'status_payment'        => 'required',
         ];
         $validator = Validator::make($request->all(), $rules);
-        $dataQuery = $this->getTagihanPasien($request->nokuitansi);
+        $dataQuery = $this->getTagihanPasienSPLP($request->nokuitansi);
 
         if ($validator->fails()) {
             return response()->json([
@@ -533,10 +533,10 @@ class TagihanPasienController extends Controller
             ], 401);
         }
 
-        $apiKeys = ApiKey::where('key', $request->header('api_key'))->first();
+        // $apiKeys = ApiKey::where('key', $request->header('api_key'))->first();
 
         $dataPayment = new LogPayment();
-        $dataPayment->api_key_id            = $apiKeys->id;
+        $dataPayment->api_key_id            = 1,// $apiKeys->id;
         $dataPayment->nopembayaran          = $request->nopembayaran;
         $dataPayment->nokuitansi            = $request->nokuitansi;
         $dataPayment->nobuktibayar          = $request->nobuktibayar;
@@ -677,10 +677,10 @@ class TagihanPasienController extends Controller
             ], 401);
         }
 
-        $apiKeys = ApiKey::where('key', $request->header('api_key'))->first();
+        // $apiKeys = ApiKey::where('key', $request->header('api_key'))->first();
 
         $dataPayment = new LogPayment();
-        $dataPayment->api_key_id            = $apiKeys->id;
+        $dataPayment->api_key_id            = 1,// $apiKeys->id;
         $dataPayment->nopembayaran          = $request->nopembayaran;
         $dataPayment->nokuitansi            = $request->nokuitansi;
         $dataPayment->nobuktibayar          = $request->nobuktibayar;
@@ -719,7 +719,7 @@ class TagihanPasienController extends Controller
         ];
 
         $validator = Validator::make($request->all(), $rules);
-        $dataQuery = $this->getTagihanPasien($request->nokuitansi);
+        $dataQuery = $this->getTagihanPasienSPLP($request->nokuitansi);
 
         if ($validator->fails()) {
             return response()->json([
