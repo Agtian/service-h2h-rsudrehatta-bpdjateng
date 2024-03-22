@@ -66,6 +66,15 @@ class TagihanPasienController extends Controller
         }
     }
 
+    public function getBiodataPasien($nomormedis)
+    {
+        $query = DB::connection('pgsql')->select("SELECT alamat_pasien, jeniskelamin, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia
+                     FROM public.informasipasiensudahbayar_v
+                    WHERE no_rekam_medik = '$nomormedis'
+                        AND cast(tglpembayaran AS DATE) = current_date
+                    ORDER BY tglpembayaran  DESC");
+    }
+
     public function detailStatusPayment($status_payment)
     {
         if ($status_payment == 0) {
@@ -285,6 +294,7 @@ class TagihanPasienController extends Controller
         }
 
         $apiKeys = ApiKey::where('key', $request->header('api_key'))->first();
+        $getBiodata = $this->getBiodataPasien($request->no_rekam_medik);
 
         $dataPayment = new LogPayment();
         $dataPayment->api_key_id            = $apiKeys->id;
@@ -295,10 +305,10 @@ class TagihanPasienController extends Controller
         $dataPayment->nama_pasien           = $request->nama_pasien;
         $dataPayment->no_rekam_medik        = $request->no_rekam_medik;
         $dataPayment->tanggal_lahir         = $request->tanggal_lahir;
-        $dataPayment->alamat_pasien         = $dataQuery[0]->alamat_pasien;
-        $dataPayment->jeniskelamin          = $dataQuery[0]->jeniskelamin;
-        $dataPayment->usia                  = $dataQuery[0]->usia;
-        $dataPayment->ruangan_nama          = $dataQuery[0]->ruangan_nama;
+        $dataPayment->alamat_pasien         = $getBiodata['alamat_pasien'];
+        $dataPayment->jeniskelamin          = $getBiodata['jeniskelamin'];
+        $dataPayment->usia                  = $getBiodata['usia'];
+        $dataPayment->ruangan_nama          = $getBiodata['ruangan_nama'];
         $dataPayment->tgl_pendaftaran       = $request->tgl_pendaftaran;
         $dataPayment->status_payment        = $request->status_payment;
         $dataPayment->payment_response_status   = $this->detailStatusPayment($request->status_payment)['status'];
@@ -429,6 +439,7 @@ class TagihanPasienController extends Controller
         }
 
         $apiKeys = ApiKey::where('key', $request->header('api_key'))->first();
+        $getBiodata = $this->getBiodataPasien($request->no_rekam_medik);
 
         $dataPayment = new LogPayment();
         $dataPayment->api_key_id            = $apiKeys->id;
@@ -439,12 +450,12 @@ class TagihanPasienController extends Controller
         $dataPayment->nama_pasien           = $request->nama_pasien;
         $dataPayment->no_rekam_medik        = $request->no_rekam_medik;
         $dataPayment->tanggal_lahir         = $request->tanggal_lahir;
-        $dataPayment->alamat_pasien         = $dataQuery[0]->alamat_pasien;
-        $dataPayment->jeniskelamin          = $dataQuery[0]->jeniskelamin;
-        $dataPayment->usia                  = $dataQuery[0]->usia;
-        $dataPayment->ruangan_nama          = $dataQuery[0]->ruangan_nama;
-        $dataPayment->tgl_pendaftaran       = $dataQuery[0]->tgl_pendaftaran;
-        $dataPayment->status_reversal           = $request->status_reversal;
+        $dataPayment->alamat_pasien         = $getBiodata['alamat_pasien'];
+        $dataPayment->jeniskelamin          = $getBiodata['jeniskelamin'];
+        $dataPayment->usia                  = $getBiodata['usia'];
+        $dataPayment->ruangan_nama          = $getBiodata['ruangan_nama'];
+        $dataPayment->tgl_pendaftaran       = $request->tgl_pendaftaran;
+        $dataPayment->status_reversal       = $request->status_reversal;
         $dataPayment->reversal_response_status  = $this->detailStatusReversal($request->status_reversal)['status'];
         $dataPayment->reversal_response_message = $this->detailStatusReversal($request->status_reversal)['message'];
         $dataPayment->save();
