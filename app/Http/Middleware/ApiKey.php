@@ -7,7 +7,6 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
-
 class ApiKey
 {
     /**
@@ -25,6 +24,11 @@ class ApiKey
             'created_at'    => date('Y-m-d H:i:s'),
         ];
 
+<<<<<<< HEAD
+=======
+        // dd($request);
+
+>>>>>>> 3c6a87d74443386fb2f6dcb974202ece2887731a
         $event_id   = DB::table('api_event_histories')->insertGetId($event_dd);
         $keys       = DB::table('api_keys')->select('id', 'key', 'status_api_key')->get();
 
