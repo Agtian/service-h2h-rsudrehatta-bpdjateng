@@ -452,10 +452,10 @@ class TagihanPasienController extends Controller
         $dataPayment->nama_pasien           = $request->nama_pasien;
         $dataPayment->no_rekam_medik        = $request->no_rekam_medik;
         $dataPayment->tanggal_lahir         = $request->tanggal_lahir;
-        $dataPayment->alamat_pasien         = $getBiodata['alamat_pasien'];
-        $dataPayment->jeniskelamin          = $getBiodata['jeniskelamin'];
-        $dataPayment->usia                  = $getBiodata['usia'];
-        $dataPayment->ruangan_nama          = $getBiodata['ruangan_nama'];
+        $dataPayment->alamat_pasien         = $getBiodata[0]->alamat_pasien;
+        $dataPayment->jeniskelamin          = $getBiodata[0]->jeniskelamin;
+        $dataPayment->usia                  = $getBiodata[0]->usia;
+        $dataPayment->ruangan_nama          = $getBiodata[0]->ruangan_nama;
         $dataPayment->tgl_pendaftaran       = $request->tgl_pendaftaran;
         $dataPayment->status_reversal       = $request->status_reversal;
         $dataPayment->reversal_response_status  = $this->detailStatusReversal($request->status_reversal)['status'];
