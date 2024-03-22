@@ -296,6 +296,8 @@ class TagihanPasienController extends Controller
         $apiKeys = ApiKey::where('key', $request->header('api_key'))->first();
         $getBiodata = $this->getBiodataPasien($request->no_rekam_medik);
 
+        dd($getBiodata);
+
         $dataPayment = new LogPayment();
         $dataPayment->api_key_id            = $apiKeys->id;
         $dataPayment->nopembayaran          = $request->nopembayaran;
