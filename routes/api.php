@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\GetTagihanPasienWithSPL;
 use App\Http\Controllers\Api\TagihanPasienController as ApiTagihanPasienController;
 use App\Http\Controllers\TagihanPasienController;
 use Illuminate\Http\Request;
@@ -17,10 +18,10 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::get('get-patient-bills', [ApiTagihanPasienController::class, 'patientBills']);
-Route::get('get-payment-patient-bill', [ApiTagihanPasienController::class, 'getPatientBillById']);
-Route::post('response-flag-payment', [ApiTagihanPasienController::class, 'storeResponseFlags']);
-Route::post('response-flag-reversal', [ApiTagihanPasienController::class, 'storeResponseReversals']);
+Route::get('get-patient-bills', [GetTagihanPasienWithSPL::class, 'patientBills']);
+Route::get('get-payment-patient-bill', [GetTagihanPasienWithSPL::class, 'getPatientBillById']);
+Route::post('response-flag-payment', [GetTagihanPasienWithSPL::class, 'storeResponseFlags']);
+Route::post('response-flag-reversal', [GetTagihanPasienWithSPL::class, 'storeResponseReversals']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

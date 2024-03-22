@@ -2,124 +2,69 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Helpers\SMSHelper;
 use App\Http\Controllers\Controller;
-use App\Models\ApiKey;
 use App\Models\LogPayment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
-class TagihanPasienController extends Controller
+class GetTagihanPasienWithSPL extends Controller
 {
-    public function getTagihanPasien($key, $nomedis_or_notagihan)
+    public function getTagihanPasienSPLP($nomedis_or_notagihan)
     {
-        $apiKeys = ApiKey::where('key', $key)->first();
-        if ($apiKeys->status_key == 1) {
-            // Jika production menampilkan data hanya pembayaran kategori BPD Jateng
-            $dataQueryByNoPembayaran = DB::connection('pgsql')->select("SELECT jnspembayar_m.jnspembayar_nama, nopembayaran, concat(substring(nopembayaran, 3, 6),
-                substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, alamat_pasien,
-                jeniskelamin, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama, tgl_pendaftaran
-                FROM public.informasipasiensudahbayar_v
-                LEFT JOIN jenispembayaran_t on informasipasiensudahbayar_v.tandabuktibayar_id  = jenispembayaran_t.tandabuktibayar_id
-                LEFT JOIN jnspembayar_m on jenispembayaran_t.jnspembayar_id = jnspembayar_m.jnspembayar_id
-                WHERE jenispembayaran_t.jnspembayar_id = 11 -- BPD JATENG
-                    AND concat(substring(nopembayaran, 3, 6), substring(nopembayaran, 10, 3)) = '$nomedis_or_notagihan'
-                    AND cast(tglpembayaran AS DATE) = current_date
-                ORDER BY tglpembayaran  DESC");
-
-            if (count($dataQueryByNoPembayaran) === 0) {
-                $dataQueryByNoMedis = DB::connection('pgsql')->select("SELECT jnspembayar_m.jnspembayar_nama, nopembayaran, concat(substring(nopembayaran, 3, 6),
-                substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, alamat_pasien,
-                jeniskelamin, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama, tgl_pendaftaran
-                FROM public.informasipasiensudahbayar_v
-                LEFT JOIN jenispembayaran_t on informasipasiensudahbayar_v.tandabuktibayar_id  = jenispembayaran_t.tandabuktibayar_id
-                LEFT JOIN jnspembayar_m on jenispembayaran_t.jnspembayar_id = jnspembayar_m.jnspembayar_id
-                WHERE jenispembayaran_t.jnspembayar_id = 11 -- BPD JATENG
-                    AND cast(tglpembayaran AS DATE) = current_date
-                    AND no_rekam_medik = '$nomedis_or_notagihan'
-                ORDER BY tglpembayaran  DESC");
-
-                return $dataQueryByNoMedis;
-            } else {
-                return $dataQueryByNoPembayaran;
-            }
-        } else {
-            // Jika development
-            $dataQueryByNoPembayaran = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
+        $dataQueryByNoPembayaran = DB::connection('pgsql')->select("SELECT jnspembayar_m.jnspembayar_nama, nopembayaran, concat(substring(nopembayaran, 3, 6),
             substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, alamat_pasien,
             jeniskelamin, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama, tgl_pendaftaran
             FROM public.informasipasiensudahbayar_v
+            LEFT JOIN jenispembayaran_t on informasipasiensudahbayar_v.tandabuktibayar_id  = jenispembayaran_t.tandabuktibayar_id
+            LEFT JOIN jnspembayar_m on jenispembayaran_t.jnspembayar_id = jnspembayar_m.jnspembayar_id
             WHERE concat(substring(nopembayaran, 3, 6), substring(nopembayaran, 10, 3)) = '$nomedis_or_notagihan'
+                -- AND jenispembayaran_t.jnspembayar_id = 11 -- BPD JATENG
                 AND cast(tglpembayaran AS DATE) = current_date
             ORDER BY tglpembayaran  DESC");
 
-            if (count($dataQueryByNoPembayaran) === 0) {
-                $dataQueryByNoMedis = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
-                substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, alamat_pasien,
-                jeniskelamin, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama, tgl_pendaftaran
-                FROM public.informasipasiensudahbayar_v
-                    WHERE cast(tglpembayaran AS DATE) = current_date
-                    and no_rekam_medik = '$nomedis_or_notagihan'
-                ORDER BY tglpembayaran  DESC");
+        if (count($dataQueryByNoPembayaran) === 0) {
+            $dataQueryByNoMedis = DB::connection('pgsql')->select("SELECT jnspembayar_m.jnspembayar_nama, nopembayaran, concat(substring(nopembayaran, 3, 6),
+            substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, alamat_pasien,
+            jeniskelamin, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama, tgl_pendaftaran
+            FROM public.informasipasiensudahbayar_v
+            LEFT JOIN jenispembayaran_t on informasipasiensudahbayar_v.tandabuktibayar_id  = jenispembayaran_t.tandabuktibayar_id
+            LEFT JOIN jnspembayar_m on jenispembayaran_t.jnspembayar_id = jnspembayar_m.jnspembayar_id
+            WHERE cast(tglpembayaran AS DATE) = current_date
+                -- AND jenispembayaran_t.jnspembayar_id = 11 -- BPD JATENG
+                AND no_rekam_medik = '$nomedis_or_notagihan'
+            ORDER BY tglpembayaran  DESC");
 
-                return $dataQueryByNoMedis;
-            } else {
-                return $dataQueryByNoPembayaran;
-            }
+            return $dataQueryByNoMedis;
+        } else {
+            return $dataQueryByNoPembayaran;
         }
+
+        // $dataQueryByNoPembayaran = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
+        //     substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, alamat_pasien,
+        //     jeniskelamin, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama, tgl_pendaftaran
+        //     FROM public.informasipasiensudahbayar_v
+        //     WHERE concat(substring(nopembayaran, 3, 6), substring(nopembayaran, 10, 3)) = '$nomedis_or_notagihan'
+        //         AND cast(tglpembayaran AS DATE) = current_date
+        //     ORDER BY tglpembayaran  DESC");
+
+        // if (count($dataQueryByNoPembayaran) === 0) {
+        //     $dataQueryByNoMedis = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
+        //     substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, alamat_pasien,
+        //     jeniskelamin, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama, tgl_pendaftaran
+        //     FROM public.informasipasiensudahbayar_v
+        //         WHERE cast(tglpembayaran AS DATE) = current_date
+        //         and no_rekam_medik = '$nomedis_or_notagihan'
+        //     ORDER BY tglpembayaran  DESC");
+
+        //     return $dataQueryByNoMedis;
+        // } else {
+        //     return $dataQueryByNoPembayaran;
+        // }
     }
 
-    public function detailStatusPayment($status_payment)
+    public function patientBills(Request $request)
     {
-        if ($status_payment == 0) {
-            $response = [
-                'status'    => 'false',
-                'message'   => 'Belum bayar'
-            ];
-        } elseif ($status_payment == 1) {
-            $response = [
-                'status'    => 'true',
-                'message'   => 'Lunas'
-            ];
-        } elseif ($status_payment == 2) {
-            $response = [
-                'status'    => 'false',
-                'message'   => 'Batal bayar'
-            ];
-        }
-
-        return $response;
-    }
-
-    public function detailStatusReversal($status_reversal)
-    {
-        if ($status_reversal == 0) {
-            $response = [
-                'status'    => 'false',
-                'message'   => 'Connection time out'
-            ];
-        } elseif ($status_reversal == 1) {
-            $response = [
-                'status'    => 'true',
-                'message'   => 'Connceted'
-            ];
-        }
-
-        return $response;
-    }
-
-    public function patientBill(Request $request)
-    {
-        $apiKeys = ApiKey::where('key', $request->header('api_key'))->first();
-        if ($apiKeys->status_key == 1) {
-            // Jika production maka tidak boleh akses
-            return response()->json([
-                'status'    => false,
-                'message'   => 'API Key Production akses dibatasi.',
-            ], 401);
-        }
-
         $dataQuery = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
                             substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, alamat_pasien,
                             jeniskelamin, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama, tgl_pendaftaran
@@ -128,13 +73,6 @@ class TagihanPasienController extends Controller
                             ORDER BY tglpembayaran  DESC
                             LIMIT 2");
 
-        if ($dataQuery == null) {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Data tagihan tidak ditemukan',
-            ], 401);
-        }
-
         return response()->json([
             'status'    => true,
             'message'   => 'Data tagihan ditemukan',
@@ -142,10 +80,10 @@ class TagihanPasienController extends Controller
         ], 200);
     }
 
-    public function patientBillById(Request $request)
+    public function getPatientBillById(Request $request)
     {
         $key        = $request->header('api_key');
-        $dataQuery  = $this->getTagihanPasien($key, $request->nomormedis);
+        $dataQuery  = $this->getTagihanPasienSPLP($request->nomormedis);
 
         if ($request->nomormedis == null) {
             return response()->json([
@@ -168,7 +106,7 @@ class TagihanPasienController extends Controller
         ], 200);
     }
 
-    public function storeResponseFlag(Request $request)
+    public function storeResponseFlags(Request $request)
     {
         $rules = [
             'nopembayaran'          => 'required',
@@ -182,7 +120,7 @@ class TagihanPasienController extends Controller
             'status_payment'        => 'required',
         ];
         $validator = Validator::make($request->all(), $rules);
-        $dataQuery = $this->getTagihanPasien($request->header('api_key'), $request->nokuitansi);
+        $dataQuery = $this->getTagihanPasienSPLP($request->nokuitansi);
 
         if ($validator->fails()) {
             return response()->json([
@@ -289,10 +227,10 @@ class TagihanPasienController extends Controller
             ], 401);
         }
 
-        $apiKeys = ApiKey::where('key', $request->header('api_key'))->first();
+        // $apiKeys = ApiKey::where('key', $request->header('api_key'))->first();
 
         $dataPayment = new LogPayment();
-        $dataPayment->api_key_id            = $apiKeys->id;
+        $dataPayment->api_key_id            = 1; // $apiKeys->id;
         $dataPayment->nopembayaran          = $request->nopembayaran;
         $dataPayment->nokuitansi            = $request->nokuitansi;
         $dataPayment->nobuktibayar          = $request->nobuktibayar;
@@ -316,7 +254,7 @@ class TagihanPasienController extends Controller
         ], 200);
     }
 
-    public function storeResponseReversal(Request $request)
+    public function storeResponseReversals(Request $request)
     {
         $rules = [
             'nopembayaran'          => 'required',
@@ -331,7 +269,7 @@ class TagihanPasienController extends Controller
         ];
 
         $validator = Validator::make($request->all(), $rules);
-        $dataQuery = $this->getTagihanPasien($request->header('api_key'), $request->nokuitansi);
+        $dataQuery = $this->getTagihanPasienSPLP($request->nokuitansi);
 
         if ($validator->fails()) {
             return response()->json([
@@ -433,10 +371,10 @@ class TagihanPasienController extends Controller
             ], 401);
         }
 
-        $apiKeys = ApiKey::where('key', $request->header('api_key'))->first();
+        // $apiKeys = ApiKey::where('key', $request->header('api_key'))->first();
 
         $dataPayment = new LogPayment();
-        $dataPayment->api_key_id            = $apiKeys->id;
+        $dataPayment->api_key_id            = 1; // $apiKeys->id;
         $dataPayment->nopembayaran          = $request->nopembayaran;
         $dataPayment->nokuitansi            = $request->nokuitansi;
         $dataPayment->nobuktibayar          = $request->nobuktibayar;

@@ -13,12 +13,6 @@ use App\Http\Controllers\User\KatalogServiceController;
 use App\Http\Controllers\User\LogServiceController;
 use App\Http\Controllers\User\ApiKeyController;
 use App\Http\Controllers\User\ProfileController;
-use App\Http\Controllers\DashboardAdminController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DashboardUserController;
-use App\Http\Controllers\RegisterAPIKeysController;
-use App\Http\Controllers\TableLogPaymentController;
-use App\Http\Controllers\TableUserAccountController;
 use App\Http\Controllers\User\BlankController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,29 +26,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-// Auth::routes();
-
-// Route::prefix('/dashboard')->middleware(['auth', 'checkrole:2'])->group(function () {
-//     Route::controller(DashboardAdminController::class)->group(function () {
-//         Route::get('/', 'index');
-//     });
-// });
-
-// Route::prefix('/home')->middleware(['auth', 'checkrole:1'])->group(function () {
-
-//     Route::controller(DashboardUserController::class)->group(function () {
-//         Route::get('/', 'index')->name('dashboardUser');
-//     });
-
-//     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboardHome');
-//     Route::get('/table-log-payment', [TableLogPaymentController::class, 'index'])->name('tableLogPayment');
-//     Route::get('/table-user-account', [TableUserAccountController::class, 'index'])->name('tableUserAccount');
-//     Route::get('/register-api-keys', [RegisterAPIKeysController::class, 'index'])->name('registerAPIKeys');
-//     Route::post('/register-api-keys/store', [RegisterAPIKeysController::class, 'store'])->name('storeRegisterApiKeys');
-
-//     Route::get('api-event-histories', [ApiEventHistoriesController::class, 'index'])->name('apiEventHistories');
-// });
 
 Route::post('/logout', [AuthenticationLoginController::class, 'logout']);
 
@@ -94,14 +65,4 @@ Route::prefix('dashboard')->middleware(['auth', 'checkrole:2'])->group(function 
     Route::get('/data-api-key', [DataApiKeyController::class, 'index']);
     Route::get('/data-user', [DataUserController::class, 'index']);
     Route::get('/profile', [ProfileController::class, 'index']);
-
-    // Route::get('/', [DashboardController::class, 'index'])->name('dashboardHome');
-
-    // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboardHome');
-    // Route::get('/table-log-payment', [TableLogPaymentController::class, 'index'])->name('tableLogPayment');
-    // Route::get('/table-user-account', [TableUserAccountController::class, 'index'])->name('tableUserAccount');
-    // Route::get('/register-api-keys', [RegisterAPIKeysController::class, 'index'])->name('registerAPIKeys');
-    // Route::post('/register-api-keys/store', [RegisterAPIKeysController::class, 'store'])->name('storeRegisterApiKeys');
-
-    // Route::get('api-event-histories', [ApiEventHistoriesController::class, 'index'])->name('apiEventHistories');
 });
