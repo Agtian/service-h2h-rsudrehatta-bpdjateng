@@ -30,7 +30,7 @@ class ProfileController extends Controller
             'level_user'        => 3,
         ]);
 
-        SMSHelper::shortsms(085799099380, "Hai bro, segera konfirmasi akun baru di REHATTA SERVICE");
+        SMSHelper::shortsms('085799099380', "Hai bro, segera konfirmasi akun baru di REHATTA SERVICE");
 
         return redirect(request()->segment(1))->with(['success' => 'Silahkan tunggu, admin akan memproses akun anda dan kode verifikasi akan kami kirim melalu SMS ke nomor anda.']);
     }
