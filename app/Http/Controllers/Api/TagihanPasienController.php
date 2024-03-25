@@ -132,7 +132,7 @@ class TagihanPasienController extends Controller
                             FROM public.informasipasiensudahbayar_v
                                 WHERE cast(tglpembayaran AS DATE) = current_date
                             ORDER BY tglpembayaran  DESC
-                            LIMIT 2");
+                            LIMIT 10");
 
         if ($dataQuery == null) {
             return response()->json([
