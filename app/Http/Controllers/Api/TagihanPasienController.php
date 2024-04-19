@@ -128,11 +128,12 @@ class TagihanPasienController extends Controller
         }
 
         $dataQuery = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
-                            substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, tanggal_lahir, ruangan_nama, tgl_pendaftaran
-                            FROM public.informasipasiensudahbayar_v
-                                WHERE cast(tglpembayaran AS DATE) = current_date
-                            ORDER BY tglpembayaran  DESC
-                            LIMIT 10");
+                        substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, alamat_pasien,
+                        jeniskelamin, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama, tgl_pendaftaran
+                        FROM public.informasipasiensudahbayar_v
+                            WHERE cast(tglpembayaran AS DATE) = current_date
+                        ORDER BY tglpembayaran  DESC
+                        LIMIT 10");
 
         if ($dataQuery == null) {
             return response()->json([
