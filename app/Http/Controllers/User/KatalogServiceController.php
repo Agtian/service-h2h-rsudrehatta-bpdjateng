@@ -14,33 +14,27 @@ class KatalogServiceController extends Controller
             "message": "Data tagihan ditemukan",
             "data": [
                 {
-                    "nopembayaran": "K-240321-001",
-                    "nokuitansi": "240321001",
-                    "nobuktibayar": "5204/BKM/III/2024",
-                    "totalbiayapelayanan": "115201.18",
-                    "nama_pasien": "Iwabe Yuino",
-                    "no_rekam_medik": "123550",
-                    "alamat_pasien": "PAYAK",
-                    "jeniskelamin": "LAKI-LAKI",
-                    "tanggal_lahir": "1995-01-08",
-                    "usia": "29",
-                    "ruangan_nama": "IGD KELET",
-                    "tgl_pendaftaran": "2024-03-21 00:13:08"
+                    "nopembayaran": "K-240419-258",
+                    "nokuitansi": "240419258",
+                    "nobuktibayar": "4238/BKM/IV/2024",
+                    "totalbiayapelayanan": "1198942",
+                    "nama_pasien": "SAKIJAN",
+                    "no_rekam_medik": "124448",
+                    "tanggal_lahir": "1959-11-15",
+                    "ruangan_nama": "ANYELIR",
+                    "tgl_pendaftaran": "2024-04-16 22:49:14"
                 },
                 {
-                    "nopembayaran": "K-240321-002",
-                    "nokuitansi": "240321002",
-                    "nobuktibayar": "5205/BKM/III/2024",
-                    "totalbiayapelayanan": "500258.02",
-                    "nama_pasien": "Shikamaru",
-                    "no_rekam_medik": "633005",
-                    "alamat_pasien": "Konoha",
-                    "jeniskelamin": "LAKI-LAKI",
-                    "tanggal_lahir": "1993-06-08",
-                    "usia": "29",
-                    "ruangan_nama": "Poli Klinik Gigi",
-                    "tgl_pendaftaran": "2024-03-21 09:13:08"
-                }
+                    "nopembayaran": "K-240419-257",
+                    "nokuitansi": "240419257",
+                    "nobuktibayar": "4237/BKM/IV/2024",
+                    "totalbiayapelayanan": "161869",
+                    "nama_pasien": "SILVIA AULIA ANISA",
+                    "no_rekam_medik": "124294",
+                    "tanggal_lahir": "2009-04-12",
+                    "ruangan_nama": "POLI ANAK",
+                    "tgl_pendaftaran": "2024-04-18 12:14:56"
+                },
             ]
         }';
 
@@ -55,10 +49,7 @@ class KatalogServiceController extends Controller
                     "totalbiayapelayanan": "100000",
                     "nama_pasien": "Adzana Shaliha",
                     "no_rekam_medik": "123456",
-                    "alamat_pasien": "KELING",
-                    "jeniskelamin": "PEREMPUAN",
                     "tanggal_lahir": "2023-10-19",
-                    "usia": "0",
                     "ruangan_nama": "POLI ANAK",
                     "tgl_pendaftaran": "2024-03-13 08:24:50"
                 }
