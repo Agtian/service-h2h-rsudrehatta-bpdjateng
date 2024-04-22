@@ -71,11 +71,11 @@
     <div class="col-md-12 mt-4">
         <div class="card">
             <div class="card-header pb-0 px-3">
-                <button class="btn btn-sm bg-gradient-primary" type="button" data-bs-toggle="collapse" data-bs-target="#two" aria-expanded="false">
+                <button class="btn btn-sm bg-gradient-primary" type="button" data-bs-toggle="collapse" data-bs-target="#three" aria-expanded="false">
                     <h6 class="mb-0 font-weight-bold text-white">Inquiry Data Tagihan</h6>
                 </button>
             </div>
-            <div class="collapse" id="two">
+            <div class="collapse" id="three">
                 <div class="card-body pt-4 p-3">
                     <ul class="list-group">
                         <p>Method : <b>GET</b></p>
@@ -89,10 +89,40 @@
                                 </li>
                             </div>
                             <div class="col-md-6">
-                                <p>Response</p>
+                                <p>Response tagihan ditemukan</p>
                                 <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-200 border-radius-lg">
                                     <pre>
         <code>{{ $responseGetDataTagihan }}</code>
+                                    </pre>
+                                </li>
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                            <div class="col-md-6">
+                                <p>Response tagihan sudah lunas</p>
+                                <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-200 border-radius-lg">
+                                    <pre>
+        <code>{{ $responseGetTagihanPaid }}</code>
+                                    </pre>
+                                </li>
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                            <div class="col-md-6">
+                                <p>Response nomor rekam medis tidak boleh kosong</p>
+                                <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-200 border-radius-lg">
+                                    <pre>
+        <code>{{ $responseRequiredNoMedis }}</code>
+                                    </pre>
+                                </li>
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                            <div class="col-md-6">
+                                <p>Response tagihan tidak ditemukan</p>
+                                <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-200 border-radius-lg">
+                                    <pre>
+        <code>{{ $responseGetTagihanTidakDitemukan }}</code>
                                     </pre>
                                 </li>
                             </div>
@@ -106,11 +136,11 @@
     <div class="col-md-12 mt-4">
         <div class="card">
             <div class="card-header pb-0 px-3">
-                <button class="btn btn-sm bg-gradient-primary" type="button" data-bs-toggle="collapse" data-bs-target="#three" aria-expanded="false">
+                <button class="btn btn-sm bg-gradient-primary" type="button" data-bs-toggle="collapse" data-bs-target="#four" aria-expanded="false">
                     <h6 class="mb-0 font-weight-bold text-white">Flag Payment</h6>
                 </button>
             </div>
-            <div class="collapse" id="three">
+            <div class="collapse" id="four">
                 <div class="card-body pt-4 p-3">
                     <ul class="list-group">
                         <p>Method : <b>POST</b></p>
@@ -188,11 +218,11 @@
     <div class="col-md-12 mt-4">
         <div class="card">
             <div class="card-header pb-0 px-3">
-                <button class="btn btn-sm bg-gradient-primary" type="button" data-bs-toggle="collapse" data-bs-target="#four" aria-expanded="false">
+                <button class="btn btn-sm bg-gradient-primary" type="button" data-bs-toggle="collapse" data-bs-target="#five" aria-expanded="false">
                     <h6 class="mb-0 font-weight-bold text-white">Flag Reversal</h6>
                 </button>
             </div>
-            <div class="collapse" id="four">
+            <div class="collapse" id="five">
                 <div class="card-body pt-4 p-3">
                     <ul class="list-group">
                         <p>Method : <b>POST</b></p>

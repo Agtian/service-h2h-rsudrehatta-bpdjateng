@@ -150,8 +150,19 @@ class TagihanPasienController extends Controller
 
     public function patientBillById(Request $request)
     {
-        $key        = $request->header('api_key');
-        $dataQuery  = $this->getTagihanPasien($key, $request->nomormedis);
+        $key            = $request->header('api_key');
+        $validateOne    = LogPayment::where([
+            ['no_rekam_medik', $request->nomormedis],
+            ['status_payment', 1]
+        ])->get();
+        if (count($validateOne) > 0) {
+            return response()->json([
+                'status'    => true,
+                'message'   => 'Tagihan nomor medis tersebut sudah lunas',
+            ], 200);
+        } else {
+            $dataQuery      = $this->getTagihanPasien($key, $request->nomormedis);
+        }
 
         if ($request->nomormedis == null) {
             return response()->json([

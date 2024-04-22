@@ -56,9 +56,19 @@ class KatalogServiceController extends Controller
             ]
         }';
 
+        $responseIsPaid = '{
+            "status": true,
+            "message": "Tagihan nomor medis tersebut sudah lunas"
+        }';
+
+        $responseRequiredNoMedis = '{
+            "status": false,
+            "message": "Parameter nomor rekam medis tidak ditemukan"
+        }';
+
         $responseGetTagihanNotInclucdeParameter = '{
             "status": false,
-            "message": "Parameter nomor medis tidak ditemukan"
+            "message": "Parameter nomor rekam medis tidak ditemukan"
         }';
 
         $responseGetTagihanTidakDitemukan = '{
@@ -162,6 +172,8 @@ class KatalogServiceController extends Controller
         return view('template-dashboard.layouts.katalog-service.index', [
             'responseGetAllTagihan'                     => $responseGetAllTagihan,
             'responseGetDataTagihan'                    => $responseGetDataTagihan,
+            'responseGetTagihanPaid'                    => $responseIsPaid,
+            'responseRequiredNoMedis'                   => $responseRequiredNoMedis,
             'responseGetTagihanNotInclucdeParameter'    => $responseGetTagihanNotInclucdeParameter,
             'responseGetTagihanTidakDitemukan'          => $responseGetTagihanTidakDitemukan,
             'responseFlag'                              => $responseFlag,
