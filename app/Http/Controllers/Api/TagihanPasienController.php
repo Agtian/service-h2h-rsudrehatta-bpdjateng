@@ -216,18 +216,18 @@ class TagihanPasienController extends Controller
             ], 401);
         }
 
-        // $queryLogPayments = LogPayment::select('id', 'nokuitansi', 'status_payment')
-        //     ->where('nokuitansi', $request->nokuitansi)
-        //     ->first();
+        $queryLogPayments = LogPayment::select('id', 'nokuitansi', 'status_payment')
+            ->where('nokuitansi', $request->nokuitansi)
+            ->first();
 
-        // if ($queryLogPayments != null) {
-        //     if ($queryLogPayments->status_payment == 1) {
-        //         return response()->json([
-        //             'status'    => false,
-        //             'message'   => 'Process flag payment is failed, payment status in full',
-        //         ], 401);
-        //     }
-        // }
+        if ($queryLogPayments != null) {
+            if ($queryLogPayments->status_payment == 1) {
+                return response()->json([
+                    'status'    => false,
+                    'message'   => 'Process flag payment is failed, payment status in full',
+                ], 401);
+            }
+        }
 
         if ($dataQuery[0]->nopembayaran != $request->nopembayaran) {
             return response()->json([
