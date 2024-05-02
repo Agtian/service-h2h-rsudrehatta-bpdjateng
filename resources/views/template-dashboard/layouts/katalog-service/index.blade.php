@@ -99,7 +99,7 @@
                             <div class="col-md-6">
                             </div>
                             <div class="col-md-6">
-                                <p>Response tagihan sudah lunas</p>
+                                <p>Response tagihan sudah lunas / tidak boleh double post</p>
                                 <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-200 border-radius-lg">
                                     <pre>
         <code>{{ $responseGetTagihanPaid }}</code>
