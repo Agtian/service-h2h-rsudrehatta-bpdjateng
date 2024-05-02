@@ -199,7 +199,7 @@ class TagihanPasienController extends Controller
             'tgl_pendaftaran'       => 'required',
             // 'status_payment'        => 'required',
             'no_reff'               => 'required',
-            'tanggal_posting'       => 'required',
+            'tanggal_posting'       => 'required|date_format:Y-m-d H:i:s',
         ];
         $validator = Validator::make($request->all(), $rules);
         $dataQuery = $this->getTagihanPasien($request->header('api_key'), $request->nokuitansi);
@@ -217,19 +217,6 @@ class TagihanPasienController extends Controller
                 'status'    => false,
                 'message'   => 'Data tagihan tidak ditemukan',
             ], 401);
-        }
-
-        $queryLogPayments = LogPayment::select('id', 'nokuitansi', 'status_payment')
-            ->where('nokuitansi', $request->nokuitansi)
-            ->first();
-
-        if ($queryLogPayments != null) {
-            if ($queryLogPayments->status_payment == 1) {
-                return response()->json([
-                    'status'    => false,
-                    'message'   => 'Process flag payment is failed, payment status in full',
-                ], 401);
-            }
         }
 
         if ($dataQuery[0]->nopembayaran != $request->nopembayaran) {
@@ -300,6 +287,19 @@ class TagihanPasienController extends Controller
                     'tgl_pendaftaran' => ['Tanggal pendaftaran tidak tidak sesuai']
                 ]
             ], 401);
+        }
+
+        $queryLogPayments = LogPayment::select('id', 'nokuitansi', 'status_payment')
+            ->where('nokuitansi', $request->nokuitansi)
+            ->first();
+
+        if ($queryLogPayments != null) {
+            if ($queryLogPayments->status_payment == 1) {
+                return response()->json([
+                    'status'    => false,
+                    'message'   => 'Process flag payment is failed, payment status in full',
+                ], 401);
+            }
         }
 
         // if ($request->status_payment > 2) {
