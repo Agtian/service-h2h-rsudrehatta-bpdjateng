@@ -196,7 +196,7 @@ class TagihanPasienController extends Controller
             'no_rekam_medik'        => 'required',
             'tanggal_lahir'         => 'required',
             'tgl_pendaftaran'       => 'required',
-            'status_payment'        => 'required',
+            // 'status_payment'        => 'required',
         ];
         $validator = Validator::make($request->all(), $rules);
         $dataQuery = $this->getTagihanPasien($request->header('api_key'), $request->nokuitansi);
@@ -216,18 +216,18 @@ class TagihanPasienController extends Controller
             ], 401);
         }
 
-        $queryLogPayments = LogPayment::select('id', 'nokuitansi', 'status_payment')
-            ->where('nokuitansi', $request->nokuitansi)
-            ->first();
+        // $queryLogPayments = LogPayment::select('id', 'nokuitansi', 'status_payment')
+        //     ->where('nokuitansi', $request->nokuitansi)
+        //     ->first();
 
-        if ($queryLogPayments != null) {
-            if ($queryLogPayments->status_payment == 1) {
-                return response()->json([
-                    'status'    => false,
-                    'message'   => 'Process flag payment is failed, payment status in full',
-                ], 401);
-            }
-        }
+        // if ($queryLogPayments != null) {
+        //     if ($queryLogPayments->status_payment == 1) {
+        //         return response()->json([
+        //             'status'    => false,
+        //             'message'   => 'Process flag payment is failed, payment status in full',
+        //         ], 401);
+        //     }
+        // }
 
         if ($dataQuery[0]->nopembayaran != $request->nopembayaran) {
             return response()->json([
@@ -299,12 +299,12 @@ class TagihanPasienController extends Controller
             ], 401);
         }
 
-        if ($request->status_payment > 2) {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Payment flag status unrecognized',
-            ], 401);
-        }
+        // if ($request->status_payment > 2) {
+        //     return response()->json([
+        //         'status'    => false,
+        //         'message'   => 'Payment flag status unrecognized',
+        //     ], 401);
+        // }
 
         $apiKeys = ApiKey::where('key', $request->header('api_key'))->first();
         $getBiodata = $this->getBiodataPasien($request->no_rekam_medik);
@@ -323,7 +323,7 @@ class TagihanPasienController extends Controller
         $dataPayment->usia                  = $getBiodata[0]->usia;
         $dataPayment->ruangan_nama          = $getBiodata[0]->ruangan_nama;
         $dataPayment->tgl_pendaftaran       = $request->tgl_pendaftaran;
-        $dataPayment->status_payment        = $request->status_payment;
+        $dataPayment->status_payment        = 1; // lunas // $request->status_payment;
         $dataPayment->payment_response_status   = $this->detailStatusPayment($request->status_payment)['status'];
         $dataPayment->payment_response_message  = $this->detailStatusPayment($request->status_payment)['message'];
         $dataPayment->save();
