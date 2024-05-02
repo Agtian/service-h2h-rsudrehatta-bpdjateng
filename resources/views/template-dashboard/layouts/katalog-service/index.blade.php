@@ -99,7 +99,7 @@
                             <div class="col-md-6">
                             </div>
                             <div class="col-md-6">
-                                <p>Response tagihan sudah lunas / tidak boleh double post</p>
+                                <p>Response tagihan sudah lunas</p>
                                 <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-200 border-radius-lg">
                                     <pre>
         <code>{{ $responseGetTagihanPaid }}</code>
@@ -159,17 +159,6 @@
         no_rekam_medik :
         tanggal_lahir :
         tgl_pendaftaran :
-        status_payment :
-                                        </pre>
-                                    </li>
-                                </div>
-                                <div class="col-md-12">
-                                    <p>Status Payment</p>
-                                    <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-200 border-radius-lg">
-                                        <pre>
-        0 : belum_bayar
-        1 : lunas
-        2 : batal_bayar
                                         </pre>
                                     </li>
                                 </div>
@@ -184,7 +173,7 @@
                                     </li>
                                 </div>
                                 <div class="col-md-12">
-                                    <p>Response payment status has been paid</p>
+                                    <p>Response payment status has been paid / cant double post flag payment</p>
                                     <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-200 border-radius-lg">
                                         <pre>
             <code>{{ $responseFlagStatusFull }}</code>
