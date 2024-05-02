@@ -119,9 +119,6 @@ class KatalogServiceController extends Controller
                 "tgl_pendaftaran": [
                     "The tgl pendaftaran field is required."
                 ],
-                "status_payment": [
-                    "The status payment field is required."
-                ]
             }
         }';
 
