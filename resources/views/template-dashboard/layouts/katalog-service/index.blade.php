@@ -159,6 +159,8 @@
         no_rekam_medik :
         tanggal_lahir :
         tgl_pendaftaran :
+        no_reff :
+        tanggal_posting : (datetime)
                                         </pre>
                                     </li>
                                 </div>

@@ -18,7 +18,7 @@ class TagihanPasienController extends Controller
         if ($apiKeys->status_key == 1) {
             // Jika production menampilkan data hanya pembayaran kategori BPD Jateng
             $dataQueryByNoPembayaran = DB::connection('pgsql')->select("SELECT jnspembayar_m.jnspembayar_nama, nopembayaran, concat(substring(nopembayaran, 3, 6),
-                substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, ruangan_nama, tgl_pendaftaran
+                substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, ROUND(totalbiayapelayanan) as totalbiayapelayanan, nama_pasien, no_rekam_medik, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, ruangan_nama, tgl_pendaftaran
                 FROM public.informasipasiensudahbayar_v
                 LEFT JOIN jenispembayaran_t on informasipasiensudahbayar_v.tandabuktibayar_id  = jenispembayaran_t.tandabuktibayar_id
                 LEFT JOIN jnspembayar_m on jenispembayaran_t.jnspembayar_id = jnspembayar_m.jnspembayar_id
@@ -29,7 +29,7 @@ class TagihanPasienController extends Controller
 
             if (count($dataQueryByNoPembayaran) === 0) {
                 $dataQueryByNoMedis = DB::connection('pgsql')->select("SELECT jnspembayar_m.jnspembayar_nama, nopembayaran, concat(substring(nopembayaran, 3, 6),
-                substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, ruangan_nama, tgl_pendaftaran
+                substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, ROUND(totalbiayapelayanan) as totalbiayapelayanan, nama_pasien, no_rekam_medik, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, ruangan_nama, tgl_pendaftaran
                 FROM public.informasipasiensudahbayar_v
                 LEFT JOIN jenispembayaran_t on informasipasiensudahbayar_v.tandabuktibayar_id  = jenispembayaran_t.tandabuktibayar_id
                 LEFT JOIN jnspembayar_m on jenispembayaran_t.jnspembayar_id = jnspembayar_m.jnspembayar_id
@@ -45,7 +45,7 @@ class TagihanPasienController extends Controller
         } else {
             // Jika development
             $dataQueryByNoPembayaran = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
-            substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, tanggal_lahir, ruangan_nama, tgl_pendaftaran
+            substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, ROUND(totalbiayapelayanan) as totalbiayapelayanan, nama_pasien, no_rekam_medik, tanggal_lahir, ruangan_nama, tgl_pendaftaran
             FROM public.informasipasiensudahbayar_v
             WHERE concat(substring(nopembayaran, 3, 6), substring(nopembayaran, 10, 3)) = '$nomedis_or_notagihan'
                 AND cast(tglpembayaran AS DATE) = current_date
@@ -53,7 +53,7 @@ class TagihanPasienController extends Controller
 
             if (count($dataQueryByNoPembayaran) === 0) {
                 $dataQueryByNoMedis = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
-                substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, tanggal_lahir, ruangan_nama, tgl_pendaftaran
+                substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, ROUND(totalbiayapelayanan) as totalbiayapelayanan, nama_pasien, no_rekam_medik, tanggal_lahir, ruangan_nama, tgl_pendaftaran
                 FROM public.informasipasiensudahbayar_v
                     WHERE cast(tglpembayaran AS DATE) = current_date
                     and no_rekam_medik = '$nomedis_or_notagihan'
@@ -128,7 +128,7 @@ class TagihanPasienController extends Controller
         }
 
         $dataQuery = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
-                            substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan, nama_pasien, no_rekam_medik, tanggal_lahir, ruangan_nama, tgl_pendaftaran
+                            substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, ROUND(totalbiayapelayanan), nama_pasien, no_rekam_medik, tanggal_lahir, ruangan_nama, tgl_pendaftaran
                             FROM public.informasipasiensudahbayar_v
                                 WHERE cast(tglpembayaran AS DATE) = current_date
                             ORDER BY tglpembayaran  DESC
@@ -155,6 +155,7 @@ class TagihanPasienController extends Controller
             ['no_rekam_medik', $request->nomormedis],
             ['status_payment', 1]
         ])->get();
+
         if (count($validateOne) > 0) {
             return response()->json([
                 'status'    => true,
@@ -197,6 +198,8 @@ class TagihanPasienController extends Controller
             'tanggal_lahir'         => 'required',
             'tgl_pendaftaran'       => 'required',
             // 'status_payment'        => 'required',
+            'no_reff'               => 'required',
+            'tanggal_posting'       => 'required',
         ];
         $validator = Validator::make($request->all(), $rules);
         $dataQuery = $this->getTagihanPasien($request->header('api_key'), $request->nokuitansi);

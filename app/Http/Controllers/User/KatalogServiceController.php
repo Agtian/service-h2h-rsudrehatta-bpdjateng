@@ -119,6 +119,12 @@ class KatalogServiceController extends Controller
                 "tgl_pendaftaran": [
                     "The tgl pendaftaran field is required."
                 ],
+                "no_reff": [
+                    "The no reff field is required."
+                ],
+                "tanggal_posting": [
+                    "The tanggal posting field is required."
+                ]
             }
         }';
 

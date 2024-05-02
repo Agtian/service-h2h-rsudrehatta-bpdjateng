@@ -26,6 +26,8 @@ return new class extends Migration
             $table->integer('usia');
             $table->string('ruangan_nama', 100);
             $table->date('tgl_pendaftaran');
+            $table->string('no_reff', 255)->nullable();
+            $table->datetime('tanggal_posting')->nullable();
             $table->tinyInteger('status_payment')->nullable()->comment('0=belum_bayar,1=lunas,2=batal_bayar');
             $table->string('payment_response_status', 20)->nullable();
             $table->string('payment_response_message', 100)->nullable();
