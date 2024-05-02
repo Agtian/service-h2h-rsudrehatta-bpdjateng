@@ -196,7 +196,7 @@ class TagihanPasienController extends Controller
             'nama_pasien'           => 'required',
             'no_rekam_medik'        => 'required',
             'tanggal_lahir'         => 'required',
-            'tgl_pendaftaran'       => 'required',
+            'tgl_pendaftaran'       => 'required|date_format:Y-m-d H:i:s',
             // 'status_payment'        => 'required',
             'no_reff'               => 'required',
             'tanggal_posting'       => 'required|date_format:Y-m-d H:i:s',

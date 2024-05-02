@@ -119,11 +119,17 @@ class KatalogServiceController extends Controller
                 "tgl_pendaftaran": [
                     "The tgl pendaftaran field is required."
                 ],
+                "tgl_pendaftaran": [
+                    "The tanggal posting field must match the format Y-m-d H:i:s."
+                ]
                 "no_reff": [
                     "The no reff field is required."
                 ],
                 "tanggal_posting": [
                     "The tanggal posting field is required."
+                ],
+                "tanggal_posting": [
+                    "The tanggal posting field must match the format Y-m-d H:i:s."
                 ]
             }
         }';
