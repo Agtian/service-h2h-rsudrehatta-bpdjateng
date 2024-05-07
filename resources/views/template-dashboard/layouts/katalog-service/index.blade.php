@@ -153,12 +153,8 @@
                                         <pre>
         nopembayaran :
         nokuitansi :
-        nobuktibayar :
         totalbiayapelayanan :
-        nama_pasien :
         no_rekam_medik :
-        tanggal_lahir :
-        tgl_pendaftaran :
         no_reff :
         tanggal_posting : (datetime Y-m-d H:i:s)
                                         </pre>

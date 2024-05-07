@@ -101,27 +101,12 @@ class KatalogServiceController extends Controller
                 "nokuitansi": [
                     "The nokuitansi field is required."
                 ],
-                "nobuktibayar": [
-                    "The nobuktibayar field is required."
-                ],
                 "totalbiayapelayanan": [
                     "The totalbiayapelayanan field is required."
-                ],
-                "nama_pasien": [
-                    "The nama pasien field is required."
                 ],
                 "no_rekam_medik": [
                     "The no rekam medik field is required."
                 ],
-                "tanggal_lahir": [
-                    "The tanggal lahir field is required."
-                ],
-                "tgl_pendaftaran": [
-                    "The tgl pendaftaran field is required."
-                ],
-                "tgl_pendaftaran": [
-                    "The tanggal posting field must match the format Y-m-d H:i:s."
-                ]
                 "no_reff": [
                     "The no reff field is required."
                 ],

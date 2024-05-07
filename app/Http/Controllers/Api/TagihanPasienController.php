@@ -68,7 +68,9 @@ class TagihanPasienController extends Controller
 
     public function getBiodataPasien($nomormedis)
     {
-        $query = DB::connection('pgsql')->select("SELECT alamat_pasien, jeniskelamin, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama
+        $query = DB::connection('pgsql')->select("SELECT ROUND(totalbiayapelayanan) as totalbiayapelayanan, nopembayaran,
+        concat(substring(nopembayaran, 3, 6), substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, totalbiayapelayanan,
+        nama_pasien, no_rekam_medik, alamat_pasien, jeniskelamin, tanggal_lahir, extract('YEAR' FROM age(tgl_pendaftaran, tanggal_lahir)) AS usia, ruangan_nama, tgl_pendaftaran
                     FROM public.informasipasiensudahbayar_v
                     WHERE no_rekam_medik = '$nomormedis'
                         AND cast(tglpembayaran AS DATE) = current_date
@@ -128,7 +130,7 @@ class TagihanPasienController extends Controller
         }
 
         $dataQuery = DB::connection('pgsql')->select("SELECT nopembayaran, concat(substring(nopembayaran, 3, 6),
-                            substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, ROUND(totalbiayapelayanan), nama_pasien, no_rekam_medik, tanggal_lahir, ruangan_nama, tgl_pendaftaran
+                            substring(nopembayaran, 10, 3)) AS nokuitansi, nobuktibayar, ROUND(totalbiayapelayanan) as totalbiayapelayanan, nama_pasien, no_rekam_medik, tanggal_lahir, ruangan_nama, tgl_pendaftaran
                             FROM public.informasipasiensudahbayar_v
                                 WHERE cast(tglpembayaran AS DATE) = current_date
                             ORDER BY tglpembayaran  DESC
@@ -191,12 +193,12 @@ class TagihanPasienController extends Controller
         $rules = [
             'nopembayaran'          => 'required',
             'nokuitansi'            => 'required',
-            'nobuktibayar'          => 'required',
+            // 'nobuktibayar'          => 'required',
             'totalbiayapelayanan'   => 'required',
-            'nama_pasien'           => 'required',
+            // 'nama_pasien'           => 'required',
             'no_rekam_medik'        => 'required',
-            'tanggal_lahir'         => 'required',
-            'tgl_pendaftaran'       => 'required|date_format:Y-m-d H:i:s',
+            // 'tanggal_lahir'         => 'required',
+            // 'tgl_pendaftaran'       => 'required|date_format:Y-m-d H:i:s',
             // 'status_payment'        => 'required',
             'no_reff'               => 'required',
             'tanggal_posting'       => 'required|date_format:Y-m-d H:i:s',
@@ -229,15 +231,15 @@ class TagihanPasienController extends Controller
             ], 401);
         }
 
-        if ($dataQuery[0]->nobuktibayar != $request->nobuktibayar) {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Process flag payment is failed',
-                'data'      => [
-                    'nobuktibayar' => ['Nomor bukti bayar tidak sesuai']
-                ]
-            ], 401);
-        }
+        // if ($dataQuery[0]->nobuktibayar != $request->nobuktibayar) {
+        //     return response()->json([
+        //         'status'    => false,
+        //         'message'   => 'Process flag payment is failed',
+        //         'data'      => [
+        //             'nobuktibayar' => ['Nomor bukti bayar tidak sesuai']
+        //         ]
+        //     ], 401);
+        // }
 
         if ($dataQuery[0]->totalbiayapelayanan != $request->totalbiayapelayanan) {
             return response()->json([
@@ -249,15 +251,15 @@ class TagihanPasienController extends Controller
             ], 401);
         }
 
-        if ($dataQuery[0]->nama_pasien != $request->nama_pasien) {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Process flag payment is failed',
-                'data'      => [
-                    'nama_pasien' => ['Nama pasien tidak tidak sesuai']
-                ]
-            ], 401);
-        }
+        // if ($dataQuery[0]->nama_pasien != $request->nama_pasien) {
+        //     return response()->json([
+        //         'status'    => false,
+        //         'message'   => 'Process flag payment is failed',
+        //         'data'      => [
+        //             'nama_pasien' => ['Nama pasien tidak tidak sesuai']
+        //         ]
+        //     ], 401);
+        // }
 
         if ($dataQuery[0]->no_rekam_medik != $request->no_rekam_medik) {
             return response()->json([
@@ -269,25 +271,25 @@ class TagihanPasienController extends Controller
             ], 401);
         }
 
-        if ($dataQuery[0]->tanggal_lahir != $request->tanggal_lahir) {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Process flag payment is failed',
-                'data'      => [
-                    'tanggal_lahir' => ['Tanggal lahir tidak tidak sesuai']
-                ]
-            ], 401);
-        }
+        // if ($dataQuery[0]->tanggal_lahir != $request->tanggal_lahir) {
+        //     return response()->json([
+        //         'status'    => false,
+        //         'message'   => 'Process flag payment is failed',
+        //         'data'      => [
+        //             'tanggal_lahir' => ['Tanggal lahir tidak tidak sesuai']
+        //         ]
+        //     ], 401);
+        // }
 
-        if ($dataQuery[0]->tgl_pendaftaran != $request->tgl_pendaftaran) {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Process flag payment is failed',
-                'data'      => [
-                    'tgl_pendaftaran' => ['Tanggal pendaftaran tidak tidak sesuai']
-                ]
-            ], 401);
-        }
+        // if ($dataQuery[0]->tgl_pendaftaran != $request->tgl_pendaftaran) {
+        //     return response()->json([
+        //         'status'    => false,
+        //         'message'   => 'Process flag payment is failed',
+        //         'data'      => [
+        //             'tgl_pendaftaran' => ['Tanggal pendaftaran tidak tidak sesuai']
+        //         ]
+        //     ], 401);
+        // }
 
         $queryLogPayments = LogPayment::select('id', 'nokuitansi', 'status_payment')
             ->where('nokuitansi', $request->nokuitansi)
@@ -316,16 +318,16 @@ class TagihanPasienController extends Controller
         $dataPayment->api_key_id            = $apiKeys->id;
         $dataPayment->nopembayaran          = $request->nopembayaran;
         $dataPayment->nokuitansi            = $request->nokuitansi;
-        $dataPayment->nobuktibayar          = $request->nobuktibayar;
+        $dataPayment->nobuktibayar          = $getBiodata[0]->nobuktibayar; // $request->nobuktibayar;
         $dataPayment->totalbiayapelayanan   = $request->totalbiayapelayanan;
-        $dataPayment->nama_pasien           = $request->nama_pasien;
+        $dataPayment->nama_pasien           = $getBiodata[0]->nama_pasien; // $request->nama_pasien;
         $dataPayment->no_rekam_medik        = $request->no_rekam_medik;
-        $dataPayment->tanggal_lahir         = $request->tanggal_lahir;
+        $dataPayment->tanggal_lahir         = $getBiodata[0]->tanggal_lahir; // $request->tanggal_lahir;
         $dataPayment->alamat_pasien         = $getBiodata[0]->alamat_pasien;
         $dataPayment->jeniskelamin          = $getBiodata[0]->jeniskelamin;
         $dataPayment->usia                  = $getBiodata[0]->usia;
         $dataPayment->ruangan_nama          = $getBiodata[0]->ruangan_nama;
-        $dataPayment->tgl_pendaftaran       = $request->tgl_pendaftaran;
+        $dataPayment->tgl_pendaftaran       = $getBiodata[0]->tgl_pendaftaran; // $request->tgl_pendaftaran;
         $dataPayment->status_payment        = 1; // lunas // $request->status_payment;
         $dataPayment->payment_response_status   = $this->detailStatusPayment($request->status_payment)['status'];
         $dataPayment->payment_response_message  = $this->detailStatusPayment($request->status_payment)['message'];
