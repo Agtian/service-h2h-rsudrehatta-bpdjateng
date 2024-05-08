@@ -160,7 +160,7 @@ class TagihanPasienController extends Controller
 
         if (count($validateOne) > 0) {
             return response()->json([
-                'status'    => true,
+                'status'    => false,
                 'message'   => 'Tagihan nomor medis tersebut sudah lunas',
             ], 200);
         } else {

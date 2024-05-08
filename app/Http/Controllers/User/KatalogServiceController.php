@@ -58,7 +58,7 @@ class KatalogServiceController extends Controller
 
         $responseIsPaid = '{
             "status": false,
-            "message": "Process flag payment is failed, payment status in full"
+            "message": "Tagihan nomor medis tersebut sudah lunas"
         }';
 
         $responseRequiredNoMedis = '{
