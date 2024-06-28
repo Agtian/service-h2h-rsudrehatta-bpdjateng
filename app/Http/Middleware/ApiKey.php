@@ -48,6 +48,7 @@ class ApiKey
         if ($result) {
             return $next($request);
         } else {
+            
             $data = [
                 'status'    => 400,
                 'message'   => 'Protect Unauhorized!',
